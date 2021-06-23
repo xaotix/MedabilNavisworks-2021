@@ -39,7 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ProjetaBIM.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\ProjetaBIM.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows, Version=2017.11.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -138,30 +138,30 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExecucaoDateForm.cs">
+    <Compile Include="Menus\ExecucaoDateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExecucaoDateForm.Designer.cs">
+    <Compile Include="Menus\ExecucaoDateForm.Designer.cs">
       <DependentUpon>ExecucaoDateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Loading.cs">
+    <Compile Include="Menus\Loading.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Loading.Designer.cs">
+    <Compile Include="Menus\Loading.Designer.cs">
       <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main.cs" />
-    <Compile Include="Member.cs" />
-    <Compile Include="ProcessingForm.cs">
+    <Compile Include="Classes\Main.cs" />
+    <Compile Include="Classes\Member.cs" />
+    <Compile Include="Menus\ProcessingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProcessingForm.Designer.cs">
+    <Compile Include="Menus\ProcessingForm.Designer.cs">
       <DependentUpon>ProcessingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Progress.cs">
+    <Compile Include="Menus\Progress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Progress.Designer.cs">
+    <Compile Include="Menus\Progress.Designer.cs">
       <DependentUpon>Progress.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,95 +175,96 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Sequence.cs" />
-    <Compile Include="SETsListForm.cs">
+    <Compile Include="Classes\Sequence.cs" />
+    <Compile Include="Menus\SETsListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SETsListForm.Designer.cs">
+    <Compile Include="Menus\SETsListForm.Designer.cs">
       <DependentUpon>SETsListForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ExecucaoDateForm.resx">
+    <EmbeddedResource Include="Menus\ExecucaoDateForm.resx">
       <DependentUpon>ExecucaoDateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <Content Include="BTLIMPAR_16.png">
+    <Content Include="Resources\BTLIMPAR_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BTLIMPAR_32.png">
+    <Content Include="Resources\BTLIMPAR_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="MedabilRibbon.xaml">
+    <Content Include="Menus\MedabilRibbon.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Loading.resx">
+    <EmbeddedResource Include="Menus\Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProcessingForm.resx">
+    <EmbeddedResource Include="Menus\ProcessingForm.resx">
       <DependentUpon>ProcessingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Progress.resx">
+    <EmbeddedResource Include="Menus\Progress.resx">
       <DependentUpon>Progress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SETsListForm.resx">
+    <EmbeddedResource Include="Menus\SETsListForm.resx">
       <DependentUpon>SETsListForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BT1_16.png">
+    <Content Include="Resources\BT1_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BT1_32.png">
+    <Content Include="Resources\BT1_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BT2_16.png">
+    <Content Include="Resources\BT2_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="BT2_32.png">
+    <Content Include="Resources\BT2_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="CalcSelection_16.png">
+    <Content Include="Resources\CalcSelection_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="CalcSelection_32.png">
+    <Content Include="Resources\CalcSelection_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="calendarRemove_16_16.png">
+    <Content Include="Resources\calendarRemove_16_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="calendarRemove_32_32.png">
+    <Content Include="Resources\calendarRemove_32_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="calendar_16_16.png">
+    <Content Include="Resources\calendar_16_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="calendar_32_32.png">
+    <Content Include="Resources\calendar_32_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="excelExport_16.png">
+    <Content Include="Resources\excelExport_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="excelExport_32.png">
+    <Content Include="Resources\excelExport_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProjetaBIM.ico" />
-    <Content Include="projetabim_16.png">
+    <Content Include="Resources\ProjetaBIM.ico" />
+    <Content Include="Resources\projetabim_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="projetabim_32.png">
+    <Content Include="Resources\projetabim_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="RB_16.png" />
-    <Content Include="RB_32.png" />
-    <Content Include="setsVps_16.png">
+    <Content Include="Resources\RB_16.png" />
+    <Content Include="Resources\RB_32.png" />
+    <None Include="Resources\logo.png" />
+    <Content Include="Resources\setsVps_16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="setsVps_32.png">
+    <Content Include="Resources\setsVps_32.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
