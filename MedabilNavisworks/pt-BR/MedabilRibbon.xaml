@@ -13,7 +13,7 @@
 
     <RibbonTab Id="MedabilRibbonTab1" KeyTip="T1">
         <RibbonPanel x:Uid="RibbonPane1_1">
-            <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_1" KeyTip="C1" Title="Propriedades Medabil">
+            <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_1" KeyTip="C1" Title="Propriedades pt-br">
 
                 <local:NWRibbonButton x:Uid="BMedabilButtonLimpar" Id="MedabilButtonLimpar"
                             Size="Large"

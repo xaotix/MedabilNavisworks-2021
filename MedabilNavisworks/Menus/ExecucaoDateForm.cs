@@ -24,7 +24,7 @@ namespace MedabilNavisworks
 
         }
 
-        public static DateTime? Wait(DateTime? initialDate = null)
+        public static DateTime? PedirData(DateTime? initialDate = null)
         {
             ExecucaoDateForm dialog = new ExecucaoDateForm();
             if (initialDate != null) dialog.dateTimePicker1.Value = (DateTime)initialDate;

@@ -16,21 +16,20 @@ using Application = System.Windows.Forms.Application;
 
 namespace MedabilNavisworks
 {
-    [Plugin("MedabilRibbon", "CONN",DisplayName = "Medabil - DLM" )]
+    [Plugin("MedabilRibbon", "CONN", DisplayName = "Medabil - DLM")]
     [RibbonLayout("MedabilRibbon.xaml")]
     [RibbonTab("MedabilRibbonTab1", DisplayName = "Medabil")]
-    [Command("MedabilButtonLimpar", Icon = @"Resources\BTLIMPAR_16.png",            LargeIcon = @"Resources\BTLIMPAR_32.png", DisplayName = "Limpar", ToolTip = "Limpa as informação do último processamento de dados")]
-    [Command("MedabilButton1",      Icon = @"Resources\BT1_16.png",                 LargeIcon = @"Resources\BT1_32.png", DisplayName = "Processar", ToolTip = "Processa as informações dos arquivos anexados e preenche os dados da aba Medabil de propriedades")]
-    [Command("MedabilButton2",      Icon = @"Resources\BT2_16.png",                 LargeIcon = @"Resources\BT2_32.png", DisplayName = "Importar SKIDs", ToolTip = "Carregar informações de SKID do relatório SAP")]
-    [Command("MedabilButton3",      Icon = @"Resources\calendar_16_16.png",         LargeIcon = @"Resources\calendar_32_32.png", DisplayName = "Definir Data Execução", ToolTip = "Define a data de execução dos elementos selecionados")]
-    [Command("MedabilButton4",      Icon = @"Resources\calendarRemove_16_16.png",   LargeIcon = @"Resources\calendarRemove_32_32.png", DisplayName = "Remove Data Execução", ToolTip = "Remove a data de execução dos elementos selecionados")]
-    [Command("MedabilButton5",      Icon = @"Resources\setsVps_16.png",             LargeIcon = @"Resources\setsVps_32.png", DisplayName = "Sets e Viewpoints", ToolTip = "Gera os Sets e Viewpoints de forma organizada para os elementos executados")]
-    [Command("MedabilButton6",      Icon = @"Resources\CalcSelection_16.png",       LargeIcon = @"Resources\CalcSelection_32.png", DisplayName = "Medabil/Tipo", ToolTip = "Apresenta o somatório das propriedades dos elementos selecionados separados por Medabil/Tipo")]
-    [Command("MedabilButton7",      Icon = @"Resources\CalcSelection_16.png",       LargeIcon = @"Resources\CalcSelection_32.png", DisplayName = "IFC/OBJECTTYPE", ToolTip = "Apresenta o somatório das propriedades dos elementos selecionados separados por IFC/OBJECTTYPE")]
-    [Command("MedabilButton8",      Icon = @"Resources\excelExport_16.png",         LargeIcon = @"Resources\excelExport_32.png", DisplayName = "Exportar Sets", ToolTip = "Exporta os somatórios das propriedades dos elementos dos sets de execução")]
-    [Command("Sobre",               Icon = @"Resources\projetabim_16.png",          LargeIcon = @"Resources\projetabim_32.png", DisplayName = "Medabil", ToolTip = "Sobre")]
+    [Command("MedabilButtonLimpar", Icon = @"Resources\BTLIMPAR_16.png", LargeIcon = @"Resources\BTLIMPAR_32.png", DisplayName = "Limpar", ToolTip = "Limpa as informação do último processamento de dados")]
+    [Command("MedabilButton1", Icon = @"Resources\BT1_16.png", LargeIcon = @"Resources\BT1_32.png", DisplayName = "Processar", ToolTip = "Processa as informações dos arquivos anexados e preenche os dados da aba Medabil de propriedades")]
+    [Command("MedabilButton2", Icon = @"Resources\BT2_16.png", LargeIcon = @"Resources\BT2_32.png", DisplayName = "Importar SKIDs", ToolTip = "Carregar informações de SKID do relatório SAP")]
+    [Command("MedabilButton3", Icon = @"Resources\calendar_16_16.png", LargeIcon = @"Resources\calendar_32_32.png", DisplayName = "Definir Data Execução", ToolTip = "Define a data de execução dos elementos selecionados")]
+    [Command("MedabilButton4", Icon = @"Resources\calendarRemove_16_16.png", LargeIcon = @"Resources\calendarRemove_32_32.png", DisplayName = "Remove Data Execução", ToolTip = "Remove a data de execução dos elementos selecionados")]
+    [Command("MedabilButton5", Icon = @"Resources\setsVps_16.png", LargeIcon = @"Resources\setsVps_32.png", DisplayName = "Sets e Viewpoints", ToolTip = "Gera os Sets e Viewpoints de forma organizada para os elementos executados")]
+    [Command("MedabilButton6", Icon = @"Resources\CalcSelection_16.png", LargeIcon = @"Resources\CalcSelection_32.png", DisplayName = "Medabil/Tipo", ToolTip = "Apresenta o somatório das propriedades dos elementos selecionados separados por Medabil/Tipo")]
+    [Command("MedabilButton7", Icon = @"Resources\CalcSelection_16.png", LargeIcon = @"Resources\CalcSelection_32.png", DisplayName = "IFC/OBJECTTYPE", ToolTip = "Apresenta o somatório das propriedades dos elementos selecionados separados por IFC/OBJECTTYPE")]
+    [Command("MedabilButton8", Icon = @"Resources\excelExport_16.png", LargeIcon = @"Resources\excelExport_32.png", DisplayName = "Exportar Sets", ToolTip = "Exporta os somatórios das propriedades dos elementos dos sets de execução")]
+    [Command("Sobre", Icon = @"Resources\projetabim_16.png", LargeIcon = @"Resources\projetabim_32.png", DisplayName = "Medabil", ToolTip = "Sobre")]
 
-    //[PluginAttribute("MyPlugin", "ADSK", ToolTip = "My Plugin", DisplayName = "My Plugin")]
     public class Main : CommandHandlerPlugin
     {
 
@@ -52,7 +51,7 @@ namespace MedabilNavisworks
                 Debug.WriteLine(eventArgs.Exception.ToString());
             };
 
-            
+
             //StartProcessMessage();
             switch (name)
             {
@@ -63,13 +62,13 @@ namespace MedabilNavisworks
                     Processar();
                     break;
                 case "MedabilButton2":
-                    SKIDsImport();
+                    ImportarReportPainel();
                     break;
                 case "MedabilButton3":
-                    ExecucaoDateDefine();
+                    Data_Define();
                     break;
                 case "MedabilButton4":
-                    ExecucaoDateDelete();
+                    Data_Limpa();
                     break;
                 case "MedabilButton5":
                     ExecucaoCalculate();
@@ -93,12 +92,12 @@ namespace MedabilNavisworks
 
         private void Sobre()
         {
-            System.Windows.Forms.MessageBox.Show("Medabil 2020 - ₢\nSuporte: Daniel Lins Maciel\ndaniel.maciel@medabil.com.br");
+            System.Windows.Forms.MessageBox.Show("Medabil 2021 - ₢\nSuporte: Daniel Lins Maciel\ndaniel.maciel@medabil.com.br");
         }
 
         private void StartProcessMessage()
         {
-            
+
         }
 
         private void StopProcessMessage()
@@ -139,10 +138,10 @@ namespace MedabilNavisworks
 
                 if (set.Value.Count == 0) continue;
 
-                
+
                 //dynamic setSum = PropertiesSum(set.Value, "Medabil", "Peso (kg)", "Medabil", "Tipo");
                 //dynamic setToExport = new ExpandoObject();
-                foreach(ModelItem item in set.Value)
+                foreach (ModelItem item in set.Value)
                 {
                     if (item.PropertyCategories.FindCategoryByDisplayName("Medabil") == null)
                     {
@@ -151,26 +150,26 @@ namespace MedabilNavisworks
                         Debug.Print("------ERRO------- " + guid);
                         continue;
                     }
-                    
+
                     DateTime dataResult;
                     if (DateTime.TryParseExact(set.Key, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dataResult))
                     {
                         arrayExport[i, 0] = dataResult;
-                        
+
                     }
                     else
                     {
                         arrayExport[i, 0] = set.Key;
-                        
+
                     }
-                    
+
                     //arrayExport[i, 0] = set.Key;
                     arrayExport[i, 1] = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Etapa").Value.ToDisplayString() ?? "NA";
                     arrayExport[i, 2] = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Piecemark").Value.ToDisplayString() ?? "NA";
                     arrayExport[i, 3] = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Numero").Value.ToDisplayString() ?? "NA";
                     arrayExport[i, 4] = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Tipo").Value.ToDisplayString() ?? "NA";
-                    arrayExport[i, 5] = Convert.ToDouble(item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Peso (kg)").Value.ToDisplayString() ?? "0") ;
-                   
+                    arrayExport[i, 5] = Convert.ToDouble(item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Peso (kg)").Value.ToDisplayString() ?? "0");
+
                     i++;
                 }
                 /*
@@ -182,59 +181,34 @@ namespace MedabilNavisworks
                 */
             }
 
-            PropertiesSetsExport(arrayExport);
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            DialogResult dr = ofd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                //FileInfo fi = new FileInfo(ofd.FileName);
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ofd.FileName);
+                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+                Excel.Range xlRange = xlWorksheet.UsedRange;
+
+                Excel.Range range;
+
+                range = xlWorksheet.Range[xlWorksheet.Cells[2, 1], xlWorksheet.Cells[xlRange.Rows.Count, xlRange.Columns.Count]];
+                range.Clear();
+
+                range = xlWorksheet.Range[xlWorksheet.Cells[2, 1], xlWorksheet.Cells[arrayExport.GetLength(0) + 1, arrayExport.GetLength(1)]];
+                range.Cells.Value = arrayExport;
 
 
+                xlWorkbook.Save();
+                xlWorkbook.Close();
 
-        }
-
-
-
-
-        //private void Teste1()
-        //{
-
-        //    Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-        //    //doc.CurrentSelection.SelectAll();
-        //    //MessageBox.Show(doc.CurrentSelection.SelectedItems.Count.ToString());
-        //    //MessageBox.Show(doc.CurrentSelection.SelectedItems.Count.ToString());
-
-        //    Search s = new Search();
-
-        //    s.Selection.SelectAll();
-        //    SearchCondition oSearchCondition = SearchCondition.HasCategoryByDisplayName("SDS2_Unified");
-        //    s.SearchConditions.Add(oSearchCondition);
-        //    ModelItemCollection groupo1 = s.FindAll(doc, false);
-
-        //    s.Selection.SelectAll();
-        //    SearchCondition oSearchCondition2 = SearchCondition.HasCategoryByDisplayName("SDS2_General");
-        //    s.SearchConditions.Clear();
-        //    s.SearchConditions.Add(oSearchCondition2);
-        //    ModelItemCollection groupo2 = s.FindAll(doc, false);
-
-        //    ModelItemCollection items = new ModelItemCollection();
-        //    items.AddRange(groupo1);
-        //    items.AddRange(groupo2);
-
-        //}
-
-        private void Teste2()
-        {
-            ExecucaoClear();
-        }
-
-        private void SequencesVPs()
-        {
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-
-            Search s = new Search();
-
-            s.Selection.SelectAll();
-            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Hierarquia").EqualValue(VariantData.FromDisplayString("Etapa"));
-            s.SearchConditions.Add(oSearchCondition);
-            ModelItemCollection items = s.FindAll(doc, false);
+            }
 
         }
+
+
 
 
         private void Processar()
@@ -242,13 +216,8 @@ namespace MedabilNavisworks
             ModelItemCollection items = new ModelItemCollection();
 
             Document activeDoc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-            //doc.CurrentSelection.SelectAll();
-            //MessageBox.Show(doc.CurrentSelection.SelectedItems.Count.ToString());
-            //MessageBox.Show(doc.CurrentSelection.SelectedItems.Count.ToString());
 
-        
 
-           
 
             Search s = new Search();
             s.Selection.SelectAll();
@@ -279,13 +248,14 @@ namespace MedabilNavisworks
 
 
             //se não acha nada, é porque talvez o arquivo não tenha marcas
+            //essa bosta fica toda hora se perdendo com entidades do Tekla
             //mapeia via força bruta
             if (items.Count() == 0)
             {
-              
+
                 ModelItemCollection searchResults = new ModelItemCollection();
                 s1.SearchConditions.Add(SearchCondition.HasCategoryByName(PropertyCategoryNames.Item));
-                searchResults = s1.FindAll(Autodesk.Navisworks.Api.Application.ActiveDocument, false); 
+                searchResults = s1.FindAll(Autodesk.Navisworks.Api.Application.ActiveDocument, false);
                 s1.PruneBelowMatch = false;
                 s1.SearchConditions.Clear();
                 var oss = searchResults.ToList().FindAll(x => !x.IsHidden).ToList();
@@ -317,22 +287,10 @@ namespace MedabilNavisworks
                 if (member == null)
                 { continue; }
 
-                if(member!=null)
+                if (member != null)
                 {
                     pp.Add(member);
                 }
-                //if(it.Parent!=null)
-                //{
-                //    if(it.Children.Count()==0)
-                //    {
-                //        pp.Add(it.Parent);
-                //    }
-                //    else
-                //    {
-
-                //        pp.Add(it);
-                //    }
-                //}
             }
             pp = pp.FindAll(x => !x.IsHidden).ToList();
             pp = pp.GroupBy(x => x.GetHashCode()).Select(x => x.First()).ToList();
@@ -359,16 +317,11 @@ namespace MedabilNavisworks
             System.Windows.Forms.MessageBox.Show("Finalizado.");
         }
 
-        private static List<DataProperty> GetPropriedades(ModelItemCollection searchResults, string categoria, string propriedade)
-        {
-            return searchResults.Select(x => x.PropertyCategories.ToList()
-            .Find(y => y.DisplayName.ToUpper().Contains(categoria)))
-                .SelectMany(x => x.Properties).ToList().FindAll(y => y.Name.ToUpper().Contains(propriedade)| y.DisplayName.ToUpper().Contains(propriedade)).ToList();
-        }
+
 
         private static ModelItemCollection GetObjetos(ModelItemCollection searchResults, string categoria, string propriedade, List<string> valores)
         {
-            if(searchResults.Count==0)
+            if (searchResults.Count == 0)
             {
                 return new ModelItemCollection();
             }
@@ -386,11 +339,11 @@ namespace MedabilNavisworks
             {
                 mm.progressBar1.Value = mm.progressBar1.Value + 1;
 
-                if(!p.IsHidden)
+                if (!p.IsHidden)
                 {
-                    if(p.Parent!=null)
+                    if (p.Parent != null)
                     {
-                        if(!p.Parent.IsHidden)
+                        if (!p.Parent.IsHidden)
                         {
 
                         }
@@ -399,36 +352,19 @@ namespace MedabilNavisworks
 
 
 
-                ModelItem member= null;
+                ModelItem member = null;
 
                 if (TemPropriedade(categoria, propriedade, valores, p))
                 {
                     member = p;
                 }
-            
 
-                if(member ==null)
+
+                if (member == null)
                 {
                     foreach (var s in p.Descendants)
                     {
-                        member = Validar(categoria, propriedade, valores,  s);
-                        if(member!=null)
-                        {
-                            break;
-                        }
-                    }
-                }
-
-
-
-
-
-                if(member == null)
-                {
-
-                    foreach (var s in p.Ancestors)
-                    {
-                  member = Validar(categoria, propriedade, valores, s);
+                        member = Validar(categoria, propriedade, valores, s);
                         if (member != null)
                         {
                             break;
@@ -440,7 +376,24 @@ namespace MedabilNavisworks
 
 
 
-                if(member!=null)
+                if (member == null)
+                {
+
+                    foreach (var s in p.Ancestors)
+                    {
+                        member = Validar(categoria, propriedade, valores, s);
+                        if (member != null)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+
+
+
+
+                if (member != null)
                 {
                     pp.Add(member);
                 }
@@ -458,7 +411,7 @@ namespace MedabilNavisworks
                 //    continue;
                 //}
 
-                 
+
 
 
 
@@ -482,7 +435,7 @@ namespace MedabilNavisworks
                 var nivel1 = member.Parent;
                 if (nivel1 != null)
                 {
-                    if(TemPropriedade(categoria, propriedade, valores, nivel1))
+                    if (TemPropriedade(categoria, propriedade, valores, nivel1))
                     {
                         member = nivel1;
                     }
@@ -518,8 +471,8 @@ namespace MedabilNavisworks
                             }
                         }
                     }
-                  
-                   
+
+
                 }
             }
 
@@ -588,7 +541,7 @@ namespace MedabilNavisworks
             ModelItemCollection items = new ModelItemCollection();
             items.AddRange(doc.Models.RootItemDescendantsAndSelf);
 
-            
+
             //MessageBox.Show(items.Count.ToString());
 
             foreach (ModelItem item in items)
@@ -618,12 +571,12 @@ namespace MedabilNavisworks
             pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("STEEL GRAPHICS COMMON"); }));
             pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("IFC"); }));
             pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("ITEM"); }));
-            //MessageBox.Show(pcs_identification.Count.ToString());
+            
             propriedades.AddRange(pcs_identification);
             string etapa_str = "";
             string Member_Number_String = "";
             string marca_string = "";
-            double peso=0;
+            double peso = 0;
             string Member_Type_String = "";
 
             //vai procurando pelas propriedades e se encontrar, seta o valor.
@@ -631,7 +584,7 @@ namespace MedabilNavisworks
             {
                 try
                 {
-                
+
                     DataProperty Sequencia = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Sequence");
                     DataProperty Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Number");
                     DataProperty Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Piecemark");
@@ -651,7 +604,7 @@ namespace MedabilNavisworks
                     {
                         Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Assembly Mark");
                     }
-                    if (Marca==null)
+                    if (Marca == null)
                     {
                         Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "DESCRIPTION");
                     }
@@ -665,7 +618,7 @@ namespace MedabilNavisworks
                     {
                         Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "GUID");
                     }
-                    
+
                     if (Marca == null)
                     {
                         Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Reference");
@@ -693,7 +646,7 @@ namespace MedabilNavisworks
 
 
 
-   
+
                     if (Numero == null)
                     {
                         Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Number");
@@ -714,26 +667,26 @@ namespace MedabilNavisworks
 
 
                     //15/04/2020 - para ler os inputs de TecnoMetal
-                    if(marca_string.ToUpper().Contains("MARK") && marca_string.ToUpper().Contains("POS"))
+                    if (marca_string.ToUpper().Contains("MARK") && marca_string.ToUpper().Contains("POS"))
                     {
                         var m = marca_string.Split(' ').ToList();
                         marca_string = m[0].ToUpper().Replace(" ", "").Replace("MARK", "").Replace(":", "");
                     }
 
-                    if(marca_string.Contains(" "))
+                    if (marca_string.Contains(" "))
                     {
                         marca_string = item.DisplayName;
                     }
-                    else if(marca_string  == Member_Type_String)
+                    else if (marca_string == Member_Type_String)
                     {
                         marca_string = item.DisplayName;
                     }
                 }
                 catch (Exception ex)
                 {
-                   // MessageBox.Show(ex.Message);
+                    // MessageBox.Show(ex.Message);
                 }
-             
+
             }
 
             if (marca_string == "") { return; }
@@ -742,7 +695,7 @@ namespace MedabilNavisworks
             {
                 ModelItem member, etapa;
                 GetMembroPrincipal(item, out member, out etapa);
-                if(member == null) { return; }
+                if (member == null) { return; }
                 if (lastMember != null && member == lastMember) return;
 
 
@@ -752,9 +705,9 @@ namespace MedabilNavisworks
                 {
                     Sequence newSequence = new Sequence("sequence", etapa_str);
                     sequences.Add(etapa_str, newSequence);
-                    PropertiesMedabilTabCreate(etapa, "Medabil", "Medabil");
-                    PropertyCreateOrEdit(etapa, "Medabil", "Hierarquia", "Etapa", "Hierarquia");
-                    PropertyCreateOrEdit(etapa, "Medabil", "Nome", etapa_str, "Nome");
+                    CriaTabDePropriedades(etapa, "Medabil", "Medabil");
+                    Propriedade_Edita_Cria(etapa, "Medabil", "Hierarquia", "Etapa", "Hierarquia");
+                    Propriedade_Edita_Cria(etapa, "Medabil", "Nome", etapa_str, "Nome");
                 }
 
                 //adiciona a medabil tab nos membros
@@ -768,13 +721,13 @@ namespace MedabilNavisworks
                     marca_string,
                     Member_Type_String
                     );
-                PropertiesMedabilTabCreate(member, "Medabil", "Medabil");
-                PropertyCreateOrEdit(member, "Medabil", "Hierarquia", newMember.TipoObjeto, "Hierarquia");
-                PropertyCreateOrEdit(member, "Medabil", "Etapa", sequence.Name, "Etapa");
-                PropertyCreateOrEdit(member, "Medabil", "Piecemark", newMember.Piecemark, "Piecemark");
-                PropertyCreateOrEdit(member, "Medabil", "Numero", newMember.Number, "Numero");
-                PropertyCreateOrEdit(member, "Medabil", "Tipo", newMember.Type, "Tipo");
-                PropertyCreateOrEdit(member, "Medabil", "Peso", newMember.NetWeight.ToString(), "Peso (kg)");
+                CriaTabDePropriedades(member, "Medabil", "Medabil");
+                Propriedade_Edita_Cria(member, "Medabil", "Hierarquia", newMember.TipoObjeto, "Hierarquia");
+                Propriedade_Edita_Cria(member, "Medabil", "Etapa", sequence.Name, "Etapa");
+                Propriedade_Edita_Cria(member, "Medabil", "Piecemark", newMember.Piecemark, "Piecemark");
+                Propriedade_Edita_Cria(member, "Medabil", "Numero", newMember.Number, "Numero");
+                Propriedade_Edita_Cria(member, "Medabil", "Tipo", newMember.Type, "Tipo");
+                Propriedade_Edita_Cria(member, "Medabil", "Peso", newMember.NetWeight.ToString(), "Peso (kg)");
 
                 //if (newMember.Type == "MISCELANEA") return;
 
@@ -799,69 +752,14 @@ namespace MedabilNavisworks
 
             }
 
-   
 
- 
-            
-            
-            
-        }
-        public static double Double(object comp, int Decimais = 4)
-        {
-                    System.Globalization.CultureInfo US = new System.Globalization.CultureInfo("en-US");
-       System.Globalization.CultureInfo BR = new System.Globalization.CultureInfo("pt-BR");
-            //string comps = comp.ToString();
-            //if (comps == "") { comps = "0"; }
-            //try
-            //{
-            //    return Math.Round(double.Parse(comps.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),Decimais);
-            //    //return Math.Round(Convert.ToDouble(comps.Replace(".",",")),Decimais);
-            //}
-            //catch (Exception)
-            //{
 
-            //    return 0;
-            //}
-            try
-            {
 
-                double val;
-                if (double.TryParse(comp.ToString().Replace(" ", ""), System.Globalization.NumberStyles.Float, BR, out val))
-                {
-                    try
-                    {
-                        return Math.Round(val, Decimais);
 
-                    }
-                    catch (Exception)
-                    {
-
-                        return val;
-                    }
-                }
-
-                else if (double.TryParse(comp.ToString(), System.Globalization.NumberStyles.Float, US, out val))
-                {
-                    try
-                    {
-
-                        return Math.Round(val, Decimais);
-                    }
-                    catch (Exception)
-                    {
-                        return val;
-                    }
-                }
-                else return 0;
-            }
-            catch (Exception)
-            {
-
-                return 0;
-            }
 
 
         }
+
         private static void GetMembroPrincipal(ModelItem item, out ModelItem member, out ModelItem etapa)
         {
 
@@ -892,10 +790,10 @@ namespace MedabilNavisworks
                     if (member.Parent != null)
                     {
                         var tp = GetTipo(member.Parent);
-                        if(member.Parent.Parent!=null)
+                        if (member.Parent.Parent != null)
                         {
-                          var  tp2 = GetTipo(member.Parent.Parent);
-                            if(tp2== 4)
+                            var tp2 = GetTipo(member.Parent.Parent);
+                            if (tp2 == 4)
                             {
                                 member = member.Parent.Parent;
                                 etapa = member.Parent.Parent.Parent;
@@ -913,7 +811,7 @@ namespace MedabilNavisworks
                 }
             }
 
-           
+
 
 
             foreach (var s in item.Ancestors)
@@ -947,7 +845,7 @@ namespace MedabilNavisworks
                     return;
                 }
             }
-          
+
             member = null;
             etapa = null;
             return;
@@ -983,20 +881,20 @@ namespace MedabilNavisworks
                 Search s = new Search();
 
                 s.Selection.SelectAll();
-                SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Nome").EqualValue(VariantData.FromDisplayString( seq.Key ));
+                SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Nome").EqualValue(VariantData.FromDisplayString(seq.Key));
 
                 s.SearchConditions.Add(oSearchCondition);
                 ModelItem item = s.FindFirst(doc, false);
-                PropertyCreateOrEdit(item, "Medabil", "Hierarquia", "Etapa", "Hierarquia");
-                PropertyCreateOrEdit(item, "Medabil", "Nome", seq.Value.Name, "Nome");
-                PropertyCreateOrEdit(item, "Medabil", "MembersCount", seq.Value.Members.Count.ToString(), "Elementos (Quantidade)");
-                PropertyCreateOrEdit(item, "Medabil", "MemebersMass", seq.Value.NetWeight.ToString() , "Elementos (Peso - kg)");
-                foreach(KeyValuePair<string,int> typeCount in seq.Value.TypesCounter)
+                Propriedade_Edita_Cria(item, "Medabil", "Hierarquia", "Etapa", "Hierarquia");
+                Propriedade_Edita_Cria(item, "Medabil", "Nome", seq.Value.Name, "Nome");
+                Propriedade_Edita_Cria(item, "Medabil", "MembersCount", seq.Value.Members.Count.ToString(), "Elementos (Quantidade)");
+                Propriedade_Edita_Cria(item, "Medabil", "MemebersMass", seq.Value.NetWeight.ToString(), "Elementos (Peso - kg)");
+                foreach (KeyValuePair<string, int> typeCount in seq.Value.TypesCounter)
                 {
                     if (typeCount.Key == "MISCELANEA") continue;
-                    PropertyCreateOrEdit(item, "Medabil", typeCount.Key+"Count" , typeCount.Value.ToString(), typeCount.Key + " (Quantidade)");
-                    PropertyCreateOrEdit(item, "Medabil", typeCount.Key+"Peso", seq.Value.TypesNetWeight[typeCount.Key].ToString() , typeCount.Key + " (Peso - kg)");
-                    
+                    Propriedade_Edita_Cria(item, "Medabil", typeCount.Key + "Count", typeCount.Value.ToString(), typeCount.Key + " (Quantidade)");
+                    Propriedade_Edita_Cria(item, "Medabil", typeCount.Key + "Peso", seq.Value.TypesNetWeight[typeCount.Key].ToString(), typeCount.Key + " (Peso - kg)");
+
                 }
 
             }
@@ -1007,7 +905,7 @@ namespace MedabilNavisworks
 
         }
 
-        private void PropertiesMedabilTabCreate(ModelItem item, string user_name, string internal_name) //string tipoObjeto, object objeto)
+        private void CriaTabDePropriedades(ModelItem item, string user_name, string internal_name) //string tipoObjeto, object objeto)
         {
             if (item == null) return;
             InwOpState10 state;
@@ -1020,19 +918,19 @@ namespace MedabilNavisworks
             // get the selection in COM
             InwOpSelection comSelectionOut =
             ComApiBridge.ToInwOpSelection(modelItemCollectionIn);
-                        
+
             // get paths within the selection
             InwSelectionPathsColl oPaths = comSelectionOut.Paths();
             InwOaPath3 oPath = (InwOaPath3)oPaths.Last();
-            
+
             // get properties collection of the path
             InwGUIPropertyNode2 propn = (InwGUIPropertyNode2)state.GetGUIPropertyNode(oPath, false);
 
-                        
+
             // create new property category
             // (new tab in the properties dialog)
             InwOaPropertyVec newPvec = (InwOaPropertyVec)state.ObjectFactory(nwEObjectType.eObjectType_nwOaPropertyVec, null, null);
-            
+
             // create new property
             InwOaProperty newP = (InwOaProperty)state.ObjectFactory(nwEObjectType.eObjectType_nwOaProperty, null, null);
 
@@ -1042,45 +940,12 @@ namespace MedabilNavisworks
                 if (nwAtt.UserDefined && nwAtt.ClassUserName == "Medabil") hasTab = true;
             }
 
-            if(!hasTab) propn.SetUserDefined(0, "Medabil", "Medabil", newPvec);
+            if (!hasTab) propn.SetUserDefined(0, "Medabil", "Medabil", newPvec);
         }
 
-        private InwOaProperty PropertyCreate(InwOpState10 state, string name, string username, string value)
-        {
-            // create new property
-
-            InwOaProperty newP =
-
-                (InwOaProperty)state.ObjectFactory(
-
-                nwEObjectType.eObjectType_nwOaProperty, null, null);
 
 
-
-            // set the name, username and value of the new property
-
-            newP.name = name;
-
-            newP.UserName = username;
-
-            newP.value = value;
-
-            return newP;
-
-        }
-        //private static List<string> filtro { get; set; } = new List<string>();
-        //private static List<string> Carregar()
-        //{
-        //    var arq = Application.StartupPath + @"\filtro.txt";
-        //    string[] lines = File.ReadAllLines(arq);
-        //    List<string> linhas = new List<string>();
-        //    foreach (string line in lines)
-        //        linhas.Add(line);
-
-        //    return linhas;
-        //}
-
-        private void PropertyCreateOrEdit(ModelItem item, string tabName, string propertyName, string propertyValue, string propertyUserName = "NewUserProperty")
+        private void Propriedade_Edita_Cria(ModelItem item, string tabName, string propertyName, string propertyValue, string propertyUserName = "NewUserProperty")
         {
             if (item == null) return;
             InwOpState10 state;
@@ -1109,18 +974,18 @@ namespace MedabilNavisworks
             int indexTab = 1;
             bool foundProperty = false;
 
-           
+
 
             foreach (InwGUIAttribute2 nwAtt in propn.GUIAttributes())
             {
-                
+
                 if (!nwAtt.UserDefined) continue;
                 if (nwAtt.ClassUserName != tabName)
                 {
                     indexTab++;
                     continue;
                 }
-                
+
 
                 //MessageBox.Show("newAtt => " + nwAtt.ClassName + " ___ " + nwAtt.ClassUserName + " ___ " + nwAtt.name);
 
@@ -1133,19 +998,18 @@ namespace MedabilNavisworks
                     nwNewProp.name = nwProp.name;
                     nwNewProp.value = nwProp.value;
                     //modifica a proprieade existente solicitada
-                    
-                    if (nwNewProp.name == propertyName )
+
+                    if (nwNewProp.name == propertyName)
                     {
-                        
+
                         foundProperty = true;
 
                         nwNewProp.value = propertyValue;
                     }
-                    if(nwNewProp.value != "_remover") newPvec.Properties().Add(nwNewProp);
+                    if (nwNewProp.value != "_remover") newPvec.Properties().Add(nwNewProp);
                 }
 
-                //if (propertyValue == "_remover") return;
-               
+
                 //caso não tenha achado a propriedade, cria a propriedade
                 if (!foundProperty && propertyValue != "_remover")
                 {
@@ -1159,24 +1023,36 @@ namespace MedabilNavisworks
 
                 newPvec.Properties().Sort();
                 propn.SetUserDefined(indexTab, nwAtt.ClassUserName, nwAtt.ClassName, newPvec);
-                
-
             }
         }
 
-        private void SKIDsImport()
+        private void ImportarReportPainel()
         {
-            
-            object[,] retorno = ExcelImportToArray();
-            
+
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            DialogResult dr = ofd.ShowDialog();
+            if (dr != DialogResult.OK) return;
+
+            //FileInfo fi = new FileInfo(ofd.FileName);
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ofd.FileName);
+            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+            Excel.Range xlRange = xlWorksheet.UsedRange;
+            object[,] retorno = xlRange.Cells.Value2;
+            xlWorkbook.Close();
+
+
+
+
             SKIDsClear();
             Dictionary<string, string> skids = new Dictionary<string, string>();
             ModelItemCollection multipleSkid = new ModelItemCollection();
             List<string> skidList = new List<string>();
 
-            
 
-            
+
+
             for (int i = 1; i <= retorno.GetLength(0); i++)
             {
                 object pmObj = retorno[i, 12];
@@ -1187,17 +1063,17 @@ namespace MedabilNavisworks
                 string skid = skidObj.ToString();
 
                 if (pm.Replace(" ", "") == "" || skid.Replace(" ", "") == "") continue;
-                
+
                 if (!skidList.Contains(skid)) skidList.Add(skid);
 
                 if (!skids.ContainsKey(pm)) skids.Add(pm, skid);
                 else if (!skids[pm].Contains(skid)) skids[pm] = skids[pm] + ", " + skid;
-                
+
             }
 
             Dictionary<string, string> sequencesSkids = new Dictionary<string, string>();
-                
-            
+
+
             foreach (KeyValuePair<string, string> skid in skids)
             {
 
@@ -1210,16 +1086,16 @@ namespace MedabilNavisworks
                 s.SearchConditions.Add(oSearchCondition);
                 ModelItemCollection items = s.FindAll(doc, false);
 
-                
-                
+
+
                 foreach (ModelItem item in items)
                 {
-                    PropertyCreateOrEdit(item, "Medabil", "SKID", skid.Value, "SKID");
+                    Propriedade_Edita_Cria(item, "Medabil", "SKID", skid.Value, "SKID");
                     bool multiSkids = false;
                     if (skid.Value.Contains(",")) multiSkids = true;
                     if (multiSkids)
                     {
-                        PropertyCreateOrEdit(item, "Medabil", "SKID_Multiple", "Yes", "SKID_Multiple");
+                        Propriedade_Edita_Cria(item, "Medabil", "SKID_Multiple", "Yes", "SKID_Multiple");
                         continue;
                     }
                     //insere o skid na sequenceList
@@ -1240,25 +1116,25 @@ namespace MedabilNavisworks
                     */
                 }
 
-                
+
 
 
 
 
             }
-            
+
             SKIDsSequences(sequencesSkids);
             SKIDsSetsCreate(skidList);
             SKIDsSetsCreateForMultiSkid();
             SKIDsClearMultSkids();
-            
 
 
 
-            
-            
 
-            
+
+
+
+
 
         }
 
@@ -1267,11 +1143,11 @@ namespace MedabilNavisworks
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
             foreach (KeyValuePair<string, string> sq in sequencesSkids)
             {
-                
+
                 Search s = new Search();
 
                 s.Selection.SelectAll();
-                SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Nome").EqualValue(VariantData.FromDisplayString(sq.Key ));
+                SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Nome").EqualValue(VariantData.FromDisplayString(sq.Key));
                 s.SearchConditions.Add(oSearchCondition);
                 SearchCondition oSearchCondition2 = SearchCondition.HasPropertyByDisplayName("Medabil", "Hierarquia").EqualValue(VariantData.FromDisplayString("Etapa"));
                 s.SearchConditions.Add(oSearchCondition2);
@@ -1280,19 +1156,19 @@ namespace MedabilNavisworks
                     sq.Value.Split(","[0]).Length.ToString(),
                     sq.Value
                     );
-                PropertyCreateOrEdit(sequenceItem, "Medabil", "SKIDs", skidsText, "SKIDs");
-                
+                Propriedade_Edita_Cria(sequenceItem, "Medabil", "SKIDs", skidsText, "SKIDs");
+
             }
         }
 
         private void SKIDsSetsCreate(List<string> skids)
         {
-            
+
             SETFolderDelete("SKIDs");
-            
+
             skids.OrderByDescending(x => x);
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-            foreach(string skid in skids)
+            foreach (string skid in skids)
             {
 
                 Search s = new Search();
@@ -1302,14 +1178,14 @@ namespace MedabilNavisworks
                 s.SearchConditions.Add(oSearchCondition);
                 ModelItemCollection items = s.FindAll(doc, false);
 
-                if(items.Count > 0) SETCreateOrEdit("SKIDs", skid, items);
+                if (items.Count > 0) SETCreateOrEdit("SKIDs", skid, items);
 
 
             }
 
-            
 
-            
+
+
         }
 
 
@@ -1331,7 +1207,7 @@ namespace MedabilNavisworks
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
             var cs = items;
             var ss = doc.SelectionSets;
-            
+
 
             var fn = folderName;
             var sn = setName;
@@ -1360,7 +1236,7 @@ namespace MedabilNavisworks
 
                     var si = ss.Value.IndexOfDisplayName(set.DisplayName);
                     var se = ss.Value[si] as SavedItem;
-                    
+
                     ss.Move(se.Parent, si, fo, 0);
                 }
 
@@ -1375,48 +1251,27 @@ namespace MedabilNavisworks
         {
             Dictionary<string, ModelItemCollection> setsList = new Dictionary<string, ModelItemCollection>();
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-            
+
             var ss = doc.SelectionSets;
             var fn = folderName;
             var fi = ss.Value.IndexOfDisplayName(fn);
-            
+
 
             if (fi == -1) return setsList;
-
-
-            var fo = ss.Value[fi] as FolderItem;
-            foreach(SavedItem sv in fo.Children)
-            {
-                SelectionSet svSet = sv as SelectionSet;
-                setsList.Add(svSet.DisplayName, SetDeepLook(svSet) );
-            }
-
-            return setsList;
-                           
-        }
-
-
-        private void SetFolderToDeep(string folderName, bool deepLook = false)
-        {
-            Dictionary<string, ModelItemCollection> setsList = new Dictionary<string, ModelItemCollection>();
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-
-            var ss = doc.SelectionSets;
-            var fn = folderName;
-            var fi = ss.Value.IndexOfDisplayName(fn);
-
-
-            if (fi == -1) return;
 
 
             var fo = ss.Value[fi] as FolderItem;
             foreach (SavedItem sv in fo.Children)
             {
                 SelectionSet svSet = sv as SelectionSet;
-                SETCreateOrEdit(fn + "Deep", svSet.DisplayName, SetDeepLook(svSet));
+                setsList.Add(svSet.DisplayName, SetDeepLook(svSet));
             }
 
+            return setsList;
+
         }
+
+
 
         private ModelItemCollection SetDeepLook(SelectionSet Set)
         {
@@ -1457,7 +1312,7 @@ namespace MedabilNavisworks
 
             return items;
 
-            
+
         }
 
         private IList<string> SETFolderList()
@@ -1465,8 +1320,8 @@ namespace MedabilNavisworks
             IList<string> setFoldesList = new List<string>();
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
 
-            var ss = doc.SelectionSets ;
-            foreach(SavedItem set in doc.SelectionSets.Value )
+            var ss = doc.SelectionSets;
+            foreach (SavedItem set in doc.SelectionSets.Value)
             {
                 if (set.IsGroup) setFoldesList.Add(set.DisplayName);
             }
@@ -1476,159 +1331,12 @@ namespace MedabilNavisworks
         }
 
 
-        
-
-        private void ExecucaoCreateSheet()
-        {
-
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-           
-            Search s = new Search();
-
-            s.Selection.SelectAll();
-            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Hierarquia").EqualValue(VariantData.FromDisplayString("member"));
-            SearchCondition oSearchCondition2 = SearchCondition.HasPropertyByDisplayName("Medabil", "Tipo").EqualValue(VariantData.FromDisplayString("MISCELANEA")).Negate();
-
-            s.SearchConditions.Add(oSearchCondition);
-            s.SearchConditions.Add(oSearchCondition2);
-
-
-            ModelItemCollection items = s.FindAll(doc, false);
-
-
-            OpenFileDialog ofd = new OpenFileDialog();
-            DialogResult dr = ofd.ShowDialog();
-            if (dr == DialogResult.OK)
-            {
-                //FileInfo fi = new FileInfo(ofd.FileName);
-                Excel.Application xlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ofd.FileName);
-                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-
-                int i = 1;
-
-                foreach (ModelItem item in items)
-                {
-
-                    i++;
-                   
-                    xlWorksheet.Cells[i, 1] = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Etapa").Value.ToDisplayString();
-                    xlWorksheet.Cells[i, 2] = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Numero").Value.ToDisplayString();
-                }
-
-                xlWorkbook.Save();
-                xlWorkbook.Close();
-
-
-                
-            }
-
-
-
-
-        }
-
-        private void ExecucaoImportDates()
-        {
-            ExecucaoClear();
-            Dictionary<string, Sequence> sequencesExecutados = new Dictionary<string,Sequence>();
-
-
-            OpenFileDialog ofd = new OpenFileDialog();
-            DialogResult dr = ofd.ShowDialog();
-            if (dr == DialogResult.OK )
-            {
-                //FileInfo fi = new FileInfo(ofd.FileName);
-                Excel.Application xlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ofd.FileName);
-                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-                Excel.Range xlRange = xlWorksheet.UsedRange;
-
-                Dictionary<int, string> datasExecucao = new Dictionary<int, string>();
-                
-
-                for (int i = 2; i <= xlRange.Rows.Count; i++)
-                {
-
-                    if (xlRange.Cells[i, 1] != null && xlRange.Cells[i, 1].Value2 != null)
-                    {
-                       
-                        string etapa = xlRange.Cells[i, 1].Text;
-                        string numero = xlRange.Cells[i, 2].Text;
-                        string dataExecução = xlRange.Cells[i, 3].Text;
-                        int dataExecucaoMS = Convert.ToInt32(xlRange.Cells[i, 3].Value2);
-
-                        if (!datasExecucao.ContainsKey(dataExecucaoMS)) datasExecucao.Add(dataExecucaoMS, dataExecução);
-
-
-                        Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-
-                        Search s = new Search();
-
-                                               
-
-                        s.Selection.SelectAll();
-                        SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Etapa").EqualValue(VariantData.FromDisplayString(etapa));
-                        SearchCondition oSearchCondition2 = SearchCondition.HasPropertyByDisplayName("Medabil", "Numero").EqualValue(VariantData.FromDisplayString(numero));
-                        s.SearchConditions.Add(oSearchCondition);
-                        s.SearchConditions.Add(oSearchCondition2);
-                        ModelItem item = s.FindFirst(doc, false);
-                        if(item != null) PropertyCreateOrEdit(item, "Medabil", "DataExecucao", dataExecução , "Data de Execução");
-
-                        if(dataExecucaoMS != 0)
-                        {
-
-                            string itemSequence = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Etapa").Value.ToDisplayString();
-                            string itemType = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Tipo").Value.ToDisplayString();
-                            double itemWeight = Convert.ToDouble(item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Peso (kg)").Value.ToDisplayString());
-
-                            if (!sequencesExecutados.ContainsKey(itemSequence)) sequencesExecutados.Add(itemSequence, new Sequence());
-
-                            if (!sequencesExecutados[itemSequence].TypesCounter.ContainsKey(itemType) )
-                            {
-                                sequencesExecutados[itemSequence].TypesCounter.Add(itemType, 1);
-                                sequencesExecutados[itemSequence].TypesNetWeight.Add(itemType, itemWeight);
-
-                            }
-                            else
-                            {
-                                sequencesExecutados[itemSequence].TypesCounter[itemType]++;
-                                sequencesExecutados[itemSequence].TypesNetWeight[itemType] += itemWeight;
-
-                            }
-                        }
-
-
-
-
-
-
-
-                    }
-
-
-                    
-                }
-
-                xlWorkbook.Close();
-                SETFolderDelete("Execução");
-                VpFolderDelete("Execução");
-                ExecucaoSets(datasExecucao);
-                ExecucaoVPs(datasExecucao);
-                ExecucaoSequencesProcess(sequencesExecutados);
-
-            }
-                
-
-            
-
-        }
 
         private void ExecucaoSets(Dictionary<int, string> datasExecucao)
         {
-            if(datasExecucao.ContainsKey(0)) datasExecucao.Remove(0);
-            List<int> sortedData = datasExecucao.Keys.ToList().OrderByDescending(x => x).ToList() ;
-            
+            if (datasExecucao.ContainsKey(0)) datasExecucao.Remove(0);
+            List<int> sortedData = datasExecucao.Keys.ToList().OrderByDescending(x => x).ToList();
+
 
 
             foreach (int data in sortedData)
@@ -1648,80 +1356,69 @@ namespace MedabilNavisworks
             }
 
 
-            
+
         }
 
         private void ExecucaoVPs(Dictionary<int, string> datasExecucao)
         {
-            if (datasExecucao.ContainsKey(0)) datasExecucao.Remove(0);
-            List<int> sortedData = datasExecucao.Keys.ToList();
-            sortedData.Sort();
-
-
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-            var all = doc.Models.CreateCollectionFromRootItems().SelectMany(i => i.DescendantsAndSelf);
-
-            //doc.Models.SetHidden(all, false);
-            //doc.ActiveView.LookFromFrontRightTop();
-
-            doc.Models.ResetAllPermanentMaterials();
-
-            doc.Models.ResetAllTemporaryMaterials();
-            
-            VpCreateOrEdit("Execução", "Inicial");
-
-            
-            doc.Models.OverridePermanentColor(all, cinza);
-            doc.Models.OverridePermanentTransparency(all, 0.5);
-
-            ModelItemCollection itemsAnteriores = null;
-
-            foreach (int data in sortedData)
+            try
             {
-                string dataString = datasExecucao[data];
+                if (datasExecucao.ContainsKey(0)) datasExecucao.Remove(0);
+                List<int> sortedData = datasExecucao.Keys.ToList();
+                sortedData.Sort();
 
-               
 
-                Search s = new Search();
+                Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
+                var all = doc.Models.CreateCollectionFromRootItems().SelectMany(i => i.DescendantsAndSelf);
 
-                s.Selection.SelectAll();
-                SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Data de Execução").EqualValue(VariantData.FromDisplayString(dataString));
-                s.SearchConditions.Add(oSearchCondition);
 
-                if( itemsAnteriores !=null)
+                doc.Models.ResetAllPermanentMaterials();
+                doc.Models.ResetAllTemporaryMaterials();
+
+                VpCreateOrEdit("Execução", "Inicial");
+
+
+                doc.Models.OverridePermanentColor(all, cinza);
+                doc.Models.OverridePermanentTransparency(all, 0.5);
+
+                ModelItemCollection itemsAnteriores = null;
+
+                foreach (int data in sortedData)
                 {
-                    doc.Models.OverridePermanentColor(itemsAnteriores, Verde);
-                    doc.Models.OverridePermanentTransparency(itemsAnteriores, 0);
+                    string dataString = datasExecucao[data];
+
+
+
+                    Search s = new Search();
+
+                    s.Selection.SelectAll();
+                    SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Data de Execução").EqualValue(VariantData.FromDisplayString(dataString));
+                    s.SearchConditions.Add(oSearchCondition);
+
+                    if (itemsAnteriores != null)
+                    {
+                        doc.Models.OverridePermanentColor(itemsAnteriores, Verde);
+                        doc.Models.OverridePermanentTransparency(itemsAnteriores, 0);
+                    }
+
+                    ModelItemCollection items = s.FindAll(doc, false);
+                    doc.Models.OverridePermanentColor(items, Amarelo);
+                    doc.Models.OverridePermanentTransparency(items, 0);
+                    itemsAnteriores = items;
+
+                    VpCreateOrEdit("Execução", dataString);
+
+
+
+
                 }
-
-                ModelItemCollection items = s.FindAll(doc, false);
-                doc.Models.OverridePermanentColor(items, Amarelo);
-                doc.Models.OverridePermanentTransparency(items, 0);
-                itemsAnteriores = items;
-
-                VpCreateOrEdit("Execução", dataString);
-
-
-
-
             }
-            
-
-
+            catch (Exception)
+            {
+            }
+           
         }
-        
-        /*
-        private void CreateOrEditVp(string folderName, string VpName)
-        {
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-            SavedViewpoint vp = new SavedViewpoint(doc.CurrentViewpoint.ToViewpoint());
-            vp.DisplayName = VpName;
-       
-            doc.SavedViewpoints.AddCopy(vp);
-          
-        }
-        */
-        
+
 
         private void VpCreateOrEdit(string folder, string name)
         {
@@ -1730,11 +1427,11 @@ namespace MedabilNavisworks
 
             foreach (InwOpSavedView savedview in state.SavedViews())
             {
-                if( savedview.Type == nwESavedViewType.eSavedViewType_Folder && savedview.name == folder) folderView = (InwOpFolderView)savedview;
+                if (savedview.Type == nwESavedViewType.eSavedViewType_Folder && savedview.name == folder) folderView = (InwOpFolderView)savedview;
 
             }
 
-            if(folderView == null)
+            if (folderView == null)
             {
                 folderView = state.ObjectFactory(nwEObjectType.eObjectType_nwOpFolderView);
                 folderView.name = folder;
@@ -1751,9 +1448,9 @@ namespace MedabilNavisworks
             vp.name = name;
             vp.anonview = cv;
 
-            folderView.SavedViews().Add(vp);           
+            folderView.SavedViews().Add(vp);
 
-            
+
 
         }
 
@@ -1776,7 +1473,7 @@ namespace MedabilNavisworks
                 }
 
             }
-            
+
 
         }
 
@@ -1787,11 +1484,11 @@ namespace MedabilNavisworks
 
 
             var fn = folderName;
-            
+
 
             try
             {
-               
+
 
                 var fi = ss.Value.IndexOfDisplayName(fn);
 
@@ -1799,7 +1496,7 @@ namespace MedabilNavisworks
                 {
                     ss.Remove(ss.Value[fi]);
                 }
-               
+
 
             }
             catch (Exception ex)
@@ -1812,7 +1509,7 @@ namespace MedabilNavisworks
         {
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
 
-            foreach ( KeyValuePair<string, Sequence> sequence in sequencesExecucao)
+            foreach (KeyValuePair<string, Sequence> sequence in sequencesExecucao)
             {
                 Search s = new Search();
 
@@ -1822,10 +1519,10 @@ namespace MedabilNavisworks
                 s.SearchConditions.Add(oSearchCondition);
                 ModelItem item = s.FindFirst(doc, false);
 
-                foreach(KeyValuePair<string,int> tipo in sequence.Value.TypesCounter)
+                foreach (KeyValuePair<string, int> tipo in sequence.Value.TypesCounter)
                 {
-                    PropertyCreateOrEdit(item, "Medabil", tipo.Key + "QtdExec", tipo.Value.ToString(), tipo.Key + " (Quantidade - Executada)");
-                    PropertyCreateOrEdit(item, "Medabil", tipo.Key + "PesoExec", sequence.Value.TypesNetWeight[tipo.Key].ToString() , tipo.Key + " (Peso - kg - Executada)");
+                    Propriedade_Edita_Cria(item, "Medabil", tipo.Key + "QtdExec", tipo.Value.ToString(), tipo.Key + " (Quantidade - Executada)");
+                    Propriedade_Edita_Cria(item, "Medabil", tipo.Key + "PesoExec", sequence.Value.TypesNetWeight[tipo.Key].ToString(), tipo.Key + " (Peso - kg - Executada)");
                 }
 
 
@@ -1836,7 +1533,7 @@ namespace MedabilNavisworks
         {
 
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-         
+
             Search s = new Search();
 
             s.Selection.SelectAll();
@@ -1852,8 +1549,6 @@ namespace MedabilNavisworks
             }
 
         }
-
-
         private void SKIDsClearMultSkids()
         {
 
@@ -1875,29 +1570,6 @@ namespace MedabilNavisworks
 
         }
 
-        private void ExecucaoClear()
-        {
-
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-
-            Search s = new Search();
-
-            s.Selection.SelectAll();
-            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Data de Execução");
-
-            s.SearchConditions.Add(oSearchCondition);
-            ModelItemCollection items = s.FindAll(doc, false);
-
-
-            foreach (ModelItem item in items)
-            {
-                PropertyDelete(item, "Medabil", "DataExecucao");
-            }
-
-            ExecucaoSequencesClear();
-
-        }
-
         private void ExecucaoSequencesClear()
         {
 
@@ -1906,7 +1578,7 @@ namespace MedabilNavisworks
             Search s = new Search();
 
             s.Selection.SelectAll();
-            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Hierarquia").EqualValue(VariantData.FromDisplayString("Etapa")); 
+            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Hierarquia").EqualValue(VariantData.FromDisplayString("Etapa"));
 
             s.SearchConditions.Add(oSearchCondition);
             ModelItemCollection items = s.FindAll(doc, false);
@@ -1920,7 +1592,6 @@ namespace MedabilNavisworks
 
 
         }
-
         private void ExecucaoPropertyDelete(ModelItem item)
         {
             if (item == null) return;
@@ -1948,7 +1619,7 @@ namespace MedabilNavisworks
 
 
             int indexTab = 1;
-            
+
 
 
 
@@ -1976,63 +1647,107 @@ namespace MedabilNavisworks
                     newPvec.Properties().Add(nwNewProp);
                 }
 
-                
 
-               
+
+
                 propn.SetUserDefined(indexTab, nwAtt.ClassUserName, nwAtt.ClassName, newPvec);
 
 
             }
         }
-
         private void PropertyDelete(ModelItem item, string tabName, string propertyName)
         {
-            PropertyCreateOrEdit(item, tabName, propertyName, "_remover");
+            Propriedade_Edita_Cria(item, tabName, propertyName, "_remover");
         }
 
-        private void ExecucaoDateDefine()
+        private void Propriedade_Edita()
         {
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
 
-            if(doc.CurrentSelection.SelectedItems.Count == 0)
+            if (doc.CurrentSelection.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Nenhum elemento selecionado");
                 return;
             }
 
-           
+
 
             Search s = new Search();
 
-            s.Selection.CopyFrom(doc.CurrentSelection );
-            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Hierarquia").EqualValue(VariantData.FromDisplayString("member")) ;
+            s.Selection.CopyFrom(doc.CurrentSelection);
+            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Hierarquia").EqualValue(VariantData.FromDisplayString("member"));
 
             s.SearchConditions.Add(oSearchCondition);
             ModelItemCollection items = s.FindAll(doc, false);
 
-            if(items.Count == 0)
+            if (items.Count == 0)
             {
                 MessageBox.Show("Os itens selecionado não correspondem ao padrão para controle de execução");
                 return;
             }
 
 
-            lastDate = ExecucaoDateForm.Wait(lastDate);
+
+            var mm = new Menus.SetarAtributo();
+            mm.ShowDialog();
+
+
+            if(mm.DialogResult== DialogResult.OK)
+            {
+
+                foreach (ModelItem item in items)
+                {
+                    Propriedade_Edita_Cria(item, mm.txt_grupo.Text, Conexoes.Utilz.RemoverCaracteresEspeciais(mm.txt_propriedade.Text),mm.txt_valor.Text, mm.txt_propriedade.Text);
+                }
+            }
+
+
+
+
+
+        }
+        private void Data_Define()
+        {
+            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
+
+            if (doc.CurrentSelection.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Nenhum elemento selecionado");
+                return;
+            }
+
+
+
+            Search s = new Search();
+
+            s.Selection.CopyFrom(doc.CurrentSelection);
+            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName("Medabil", "Hierarquia").EqualValue(VariantData.FromDisplayString("member"));
+
+            s.SearchConditions.Add(oSearchCondition);
+            ModelItemCollection items = s.FindAll(doc, false);
+
+            if (items.Count == 0)
+            {
+                MessageBox.Show("Os itens selecionado não correspondem ao padrão para controle de execução");
+                return;
+            }
+
+
+            lastDate = ExecucaoDateForm.PedirData(lastDate);
 
             if (lastDate == null) return;
-            
+
             string date = ((DateTime)lastDate).ToString("dd/MM/yyyy");
 
             foreach (ModelItem item in items)
             {
-                PropertyCreateOrEdit(item, "Medabil", "DataExecucao", date, "Data de Execução");
+                Propriedade_Edita_Cria(item, "Medabil", "DataExecucao", date, "Data de Execução");
             }
 
-            
+
 
         }
-
-        private void ExecucaoDateDelete()
+        private void Data_Limpa()
         {
             DialogResult confirmacao = MessageBox.Show("Confirmar remoção das datas de execução dos elementos selecionados?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
 
@@ -2059,7 +1774,7 @@ namespace MedabilNavisworks
                 MessageBox.Show("Os itens selecionados não correspondem ao padrão para controle de execução");
                 return;
             }
-                     
+
 
             foreach (ModelItem item in items)
             {
@@ -2069,7 +1784,6 @@ namespace MedabilNavisworks
 
 
         }
-
         private void ExecucaoCalculate()
         {
             Dictionary<int, string> datasExecucao = new Dictionary<int, string>();
@@ -2085,10 +1799,10 @@ namespace MedabilNavisworks
             s.SearchConditions.Add(oSearchCondition);
             ModelItemCollection items = s.FindAll(doc, false);
 
-            foreach(ModelItem item in items)
+            foreach (ModelItem item in items)
             {
                 string dateString = item.PropertyCategories.FindPropertyByDisplayName("Medabil", "Data de Execução").Value.ToDisplayString();
-                
+
                 if (!DateTime.TryParseExact(dateString, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime date)) continue;
                 int dateInt = int.Parse(date.ToString("yyyyMMdd"));
                 if (!datasExecucao.ContainsKey(dateInt)) datasExecucao.Add(dateInt, dateString);
@@ -2126,24 +1840,23 @@ namespace MedabilNavisworks
             ExecucaoSequencesClear();
             ExecucaoSequencesProcess(sequencesExecutados);
         }
-
         private dynamic PropertiesSum(ModelItemCollection elementos, String pesoCategory, string pesoProperty, string tipoCategory, string tipoProperty)
         {
             dynamic somatorio = new ExpandoObject();
             somatorio.peso = Convert.ToDouble(0);
             somatorio.contagem = 0;
             Dictionary<string, dynamic> segregated = new Dictionary<string, dynamic>();
-            
+
             foreach (ModelItem item in elementos)
             {
                 DataProperty pesoPropriedade;
                 pesoPropriedade = item.PropertyCategories.FindPropertyByDisplayName(pesoCategory, pesoProperty);
-                if(pesoPropriedade == null && pesoProperty == "SDS2_Unified") pesoPropriedade = item.PropertyCategories.FindPropertyByDisplayName("SDS2_General", pesoProperty);
-                
+                if (pesoPropriedade == null && pesoProperty == "SDS2_Unified") pesoPropriedade = item.PropertyCategories.FindPropertyByDisplayName("SDS2_General", pesoProperty);
+
 
                 double peso = 0;
                 if (pesoPropriedade != null && pesoPropriedade.Value.IsDisplayString) peso = Convert.ToDouble(pesoPropriedade.Value.ToDisplayString());
-                else if(pesoPropriedade != null) peso = pesoPropriedade.Value.ToDouble(); 
+                else if (pesoPropriedade != null) peso = pesoPropriedade.Value.ToDouble();
 
 
                 somatorio.peso += peso;
@@ -2161,10 +1874,9 @@ namespace MedabilNavisworks
             }
 
             somatorio.segregated = segregated;
-            
+
             return somatorio;
         }
-
         private void PropertiesSelectionSum(String pesoCategory, string pesoProperty, string tipoCategory, string tipoProperty)
         {
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
@@ -2175,13 +1887,13 @@ namespace MedabilNavisworks
                 return;
             }
 
-           
+
 
             Search s = new Search();
 
             s.Selection.CopyFrom(doc.CurrentSelection);
             //SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName(pesoCategory, pesoProperty).EqualValue(VariantData.FromDisplayString("member"));
-            
+
             s.SearchConditions.Add(SearchCondition.HasPropertyByDisplayName(tipoCategory, tipoProperty));
 
             ModelItemCollection items = s.FindAll(doc, false);
@@ -2198,79 +1910,21 @@ namespace MedabilNavisworks
 
 
             string mensagem = "";
-            
+
             mensagem += "TOTAIS";
             mensagem += "\nQuantidade de elementos: " + retorno.contagem;
             mensagem += "\nPeso Total (kg): " + Math.Round(retorno.peso, 2);
-            foreach(KeyValuePair<string, dynamic> tipo in (Dictionary<string, dynamic>)retorno.segregated)
+            foreach (KeyValuePair<string, dynamic> tipo in (Dictionary<string, dynamic>)retorno.segregated)
             {
                 mensagem += "\n---------------";
                 mensagem += "\n" + tipo.Key;
-                mensagem += "\n     Quantidade: " + tipo.Value.contagem ;
-                mensagem += "\n     Peso (kg): " + Math.Round(tipo.Value.peso,2);
+                mensagem += "\n     Quantidade: " + tipo.Value.contagem;
+                mensagem += "\n     Peso (kg): " + Math.Round(tipo.Value.peso, 2);
             }
             MessageBox.Show(mensagem);
-            
-            
-            
-        }
 
-        
 
-        private void PropertiesSetsExport(object[,] arrayExport)
-        {
-            
-            OpenFileDialog ofd = new OpenFileDialog();
-            DialogResult dr = ofd.ShowDialog();
-            if (dr == DialogResult.OK)
-            {
-                //FileInfo fi = new FileInfo(ofd.FileName);
-                Excel.Application xlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ofd.FileName);
-                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-                Excel.Range xlRange = xlWorksheet.UsedRange;
-
-                Excel.Range range;
-
-                range = xlWorksheet.Range[xlWorksheet.Cells[2, 1], xlWorksheet.Cells[xlRange.Rows.Count, xlRange.Columns.Count]];
-                range.Clear();
-
-                //range = xlWorksheet.Range[xlWorksheet.Cells[2, 1], xlWorksheet.Cells[arrayExport.GetLength(0) + 1, 1]];
-                //range.Cells.NumberFormat = "dd/mm/yyyy";fcdxfdxscfdsfgdsdfscdx
-
-                range = xlWorksheet.Range[xlWorksheet.Cells[2, 1], xlWorksheet.Cells[arrayExport.GetLength(0) + 1, arrayExport.GetLength(1)]];
-                range.Cells.Value = arrayExport;
-
-                //range = xlWorksheet.Range[xlWorksheet.Cells[2, 1], xlWorksheet.Cells[arrayExport.GetLength(0) + 1, 1]];
-                //range.Cells.NumberFormat = "dd/mm/yyyy";
-
-                xlWorkbook.Save();
-                xlWorkbook.Close();
-                
-            }
 
         }
-
-        private object[,] ExcelImportToArray() 
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            DialogResult dr = ofd.ShowDialog();
-            if (dr != DialogResult.OK) return null;
-            
-            //FileInfo fi = new FileInfo(ofd.FileName);
-            Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(ofd.FileName);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-            Excel.Range xlRange = xlWorksheet.UsedRange;
-            object[,] myvalues = xlRange.Cells.Value2;
-
-            xlWorkbook.Close();
-            return myvalues;
-
-
-
-            
-        }
-
     }
 }
