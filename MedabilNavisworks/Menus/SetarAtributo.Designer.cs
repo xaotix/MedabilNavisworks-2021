@@ -73,7 +73,7 @@ namespace MedabilNavisworks.Menus
             this.txt_propriedade.Location = new System.Drawing.Point(79, 38);
             this.txt_propriedade.Name = "txt_propriedade";
             this.txt_propriedade.Size = new System.Drawing.Size(243, 20);
-            this.txt_propriedade.TabIndex = 1;
+            this.txt_propriedade.TabIndex = 2;
             // 
             // label3
             // 
@@ -91,7 +91,7 @@ namespace MedabilNavisworks.Menus
             this.txt_valor.Location = new System.Drawing.Point(79, 64);
             this.txt_valor.Name = "txt_valor";
             this.txt_valor.Size = new System.Drawing.Size(243, 20);
-            this.txt_valor.TabIndex = 1;
+            this.txt_valor.TabIndex = 3;
             // 
             // button1
             // 
@@ -99,7 +99,7 @@ namespace MedabilNavisworks.Menus
             this.button1.Location = new System.Drawing.Point(247, 126);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Salvar";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);

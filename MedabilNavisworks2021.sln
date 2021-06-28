@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedabilNavisworks2021", "Me
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MedabilNavisworksSetup", "MedabilNavisworksSetup\MedabilNavisworksSetup.vdproj", "{32E28470-FB03-426A-8E90-3E79327B40F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conexoes", "..\Conexoes\Conexoes.csproj", "{DEF82547-9FAB-457E-89BF-C10ED1DD9162}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{32E28470-FB03-426A-8E90-3E79327B40F6}.Debug|Any CPU.Build.0 = Debug
 		{32E28470-FB03-426A-8E90-3E79327B40F6}.Release|Any CPU.ActiveCfg = Release
 		{32E28470-FB03-426A-8E90-3E79327B40F6}.Release|Any CPU.Build.0 = Release
+		{DEF82547-9FAB-457E-89BF-C10ED1DD9162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF82547-9FAB-457E-89BF-C10ED1DD9162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF82547-9FAB-457E-89BF-C10ED1DD9162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF82547-9FAB-457E-89BF-C10ED1DD9162}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

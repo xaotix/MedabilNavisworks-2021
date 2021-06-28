@@ -13,7 +13,7 @@
 
     <RibbonTab Id="MedabilRibbonTab1" KeyTip="T1">
         <RibbonPanel x:Uid="RibbonPane1_1">
-            <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_1" KeyTip="C1" Title="Propriedades pt-br">
+            <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_1" KeyTip="C1" Title="Medabil">
 
                 <local:NWRibbonButton x:Uid="BMedabilButtonLimpar" Id="MedabilButtonLimpar"
                             Size="Large"
@@ -65,8 +65,13 @@
                             ShowText="True"
                             Text="Sets e Views"
                             Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BSetAtributos" Id="SetAtributos"
+                            Size="Large"
+                            KeyTip="B1"
+                            ShowText="True"
+                            Text="Editar/Criar"
+                            Orientation="Vertical"/>
 
-                
             </RibbonPanelSource>
         </RibbonPanel>
         <RibbonPanel x:Uid="RibbonPane1_4">
@@ -86,7 +91,7 @@
                             Orientation="Vertical"/>
             </RibbonPanelSource>
         </RibbonPanel>
-        <RibbonPanel x:Uid="RibbonPane1_5">
+        <RibbonPanel x:Uid="RibbonPane1_6">
             <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_5" KeyTip="C1" Title="Exportar">
                 <local:NWRibbonButton x:Uid="BMedabilButton8" Id="MedabilButton8"
                             Size="Large"
@@ -96,8 +101,9 @@
                             Orientation="Vertical"/>
             </RibbonPanelSource>
         </RibbonPanel>
-        <RibbonPanel x:Uid="RibbonPane1_5">
-            <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_5" KeyTip="C1" Title="Sobre...">
+
+        <RibbonPanel x:Uid="RibbonPane1_8">
+            <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_7" KeyTip="C1" Title="Sobre...">
 
                 <local:NWRibbonButton x:Uid="Sobre" Id="Sobre"
                             Size="Large"

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Medabil")]
 [assembly: AssemblyProduct("Medabil Navisworks Plugin 2021")]
-[assembly: AssemblyCopyright("Copyright Daniel Lins Maciel ©  2020")]
+[assembly: AssemblyCopyright("Copyright Daniel Lins Maciel ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
