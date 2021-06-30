@@ -9,6 +9,8 @@ namespace MedabilNavisworks
    public static  class Constantes
     {
         public static string Tab { get; set; } = "Medabil";
+        public static string QtdExec { get; set; } = "QtdExec";
+        public static string PesoExec { get; set; } = "PesoExec";
         public static string Hierarquia { get; set; } = "Hierarquia";
         public static string Etapa { get; set; } = "Etapa";
         public static string DataExecucaoDesc { get; set; } = "Data de Execução";

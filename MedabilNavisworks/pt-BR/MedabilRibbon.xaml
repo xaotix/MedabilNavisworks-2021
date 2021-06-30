@@ -15,90 +15,99 @@
         <RibbonPanel x:Uid="RibbonPane1_1">
             <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_1" KeyTip="C1" Title="Medabil">
 
-                <local:NWRibbonButton x:Uid="BMedabilButtonLimpar" Id="MedabilButtonLimpar"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Limpar"
-                            Orientation="Vertical"/>
-                
-                <local:NWRibbonButton x:Uid="BMedabilButton1" Id="MedabilButton1"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Processar"
-                            Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BMedabilButtonLimpar" 
+                                      Id="MedabilButtonLimpar"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Limpar"
+                                      Orientation="Vertical"/>
+
+                <local:NWRibbonButton x:Uid="B_Mapeia" 
+                                      Id="Mapeia"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Processar"
+                                      Orientation="Vertical"/>
 
 
             </RibbonPanelSource>
         </RibbonPanel>
         <RibbonPanel x:Uid="RibbonPane1_2">
             <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_2" KeyTip="C1" Title="Importar">
-                <local:NWRibbonButton x:Uid="BMedabilButton2" Id="MedabilButton2"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Importar Report Painel de Obras"
-                            Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BImportaPlanilha" 
+                                      Id="ImportaPlanilha"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Painel de Obras"
+                                      Orientation="Vertical"/>
         </RibbonPanelSource>
         </RibbonPanel>
         <RibbonPanel x:Uid="RibbonPane1_3">
             <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_3" KeyTip="C1" Title="Execução">
-        <local:NWRibbonButton x:Uid="BMedabilButton3" Id="MedabilButton3"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Definir Data"
-                            Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BDefineData" 
+                              Id="DefineData"                        
+                              Size="Large"
+                              KeyTip="B1"
+                              ShowText="True"
+                              Text="Definir Data"
+                              Orientation="Vertical"/>
 
 
-                <local:NWRibbonButton x:Uid="BMedabilButton4" Id="MedabilButton4"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Remover Data"
-                            Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BRemoveData" 
+                                      Id="RemoveData"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Remover Data"
+                                      Orientation="Vertical"/>
 
-                <local:NWRibbonButton x:Uid="BMedabilButton5" Id="MedabilButton5"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Sets e Views"
-                            Orientation="Vertical"/>
-                <local:NWRibbonButton x:Uid="BSetAtributos" Id="SetAtributos"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Editar/Criar"
-                            Orientation="Vertical"/>
-
+                <local:NWRibbonButton x:Uid="BMedabilButton5" 
+                                      Id="MedabilButton5"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Sets e Views"
+                                      Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BSetAtributos" 
+                                      Id="SetAtributos"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Editar/Criar"
+                                      Orientation="Vertical"/>
             </RibbonPanelSource>
         </RibbonPanel>
         <RibbonPanel x:Uid="RibbonPane1_4">
             <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_4" KeyTip="C1" Title="Somatórios seleção">
-                <local:NWRibbonButton x:Uid="BMedabilButton6" Id="MedabilButton6"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Medabil/Tipo"
-                            Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BMedabilButton6" 
+                                      Id="MedabilButton6"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Medabil/Tipo"
+                                      Orientation="Vertical"/>
 
-                <local:NWRibbonButton x:Uid="BMedabilButton7" Id="MedabilButton7"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="IFC/OBJECTTYPE"
-                            Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BMedabilButton7" 
+                                      Id="MedabilButton7"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="IFC/OBJECTTYPE"
+                                      Orientation="Vertical"/>
             </RibbonPanelSource>
         </RibbonPanel>
         <RibbonPanel x:Uid="RibbonPane1_6">
             <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_5" KeyTip="C1" Title="Exportar">
-                <local:NWRibbonButton x:Uid="BMedabilButton8" Id="MedabilButton8"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="SETs"
-                            Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BMedabilButton8"
+                                      Id="PropertiesSetsSum"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="SETs"
+                                      Orientation="Vertical"/>
             </RibbonPanelSource>
         </RibbonPanel>
 
@@ -106,11 +115,11 @@
             <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_7" KeyTip="C1" Title="Sobre...">
 
                 <local:NWRibbonButton x:Uid="Sobre" Id="Sobre"
-                            Size="Large"
-                            KeyTip="B1"
-                            ShowText="True"
-                            Text="Medabil"
-                            Orientation="Vertical"/>
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Medabil"
+                                      Orientation="Vertical"/>
             </RibbonPanelSource>
         </RibbonPanel>
     </RibbonTab>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MedabilNavisworks
 {
-    class Membro
+    class Peca
     {
         public string TipoObjeto { get; set; }
         public string Numero { get; set; }
@@ -15,7 +15,7 @@ namespace MedabilNavisworks
         public string Tipo { get; set; }
 
         
-        public Membro(string tipoObjeto, string number, double netWeight, string piecemark, string type)
+        public Peca(string tipoObjeto, string number, double netWeight, string piecemark, string type)
         {
             TipoObjeto = tipoObjeto;
             Numero = number;
