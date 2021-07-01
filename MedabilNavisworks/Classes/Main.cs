@@ -199,100 +199,322 @@ namespace MedabilNavisworks
 
 
            
+            
+
+
+
+
             Search s = new Search();
             s.Selection.SelectAll();
-            SearchCondition oSearchCondition = SearchCondition.HasCategoryByDisplayName("SDS2_Unified");
-            s.SearchConditions.Add(oSearchCondition);
-            ModelItemCollection sds = s.FindAll(activeDoc, false);
-            w.somaProgresso();
-            s.Selection.SelectAll();
-            SearchCondition oSearchCondition2 = SearchCondition.HasCategoryByDisplayName("SDS2_General");
-            s.SearchConditions.Clear();
-            s.SearchConditions.Add(oSearchCondition2);
-            ModelItemCollection sds2 = s.FindAll(activeDoc, false);
-            w.somaProgresso();
 
-            Search s1 = new Search();
-            s1.PruneBelowMatch = false;
-            s1.SearchConditions.Clear();
-            ModelItemCollection micTmp = new ModelItemCollection();
-            foreach (var mod in activeDoc.Models)
+            List<SearchCondition> condicoes = new List<SearchCondition>();
+
+            condicoes.Add(SearchCondition.HasCategoryByDisplayName("SDS2_Unified"));
+            condicoes.Add(SearchCondition.HasCategoryByDisplayName("SDS2_General"));
+            condicoes.Add(SearchCondition.HasCategoryByDisplayName("Steel & Graphics Common"));
+            condicoes.Add(SearchCondition.HasCategoryByDisplayName("Tekla Common"));
+            foreach(var cond in condicoes)
             {
-                micTmp.Add(mod.RootItem);
+            s.SearchConditions.AddGroup(new List<SearchCondition> { cond});
             }
-            s1.Selection.CopyFrom(micTmp);
-            ////Daniel Maciel
-            items.AddRange(sds);
-            items.AddRange(sds2);
+
+     
+            var itens = s.FindAll(activeDoc, false).ToList();
             w.somaProgresso();
 
 
-            //se não acha nada, é porque talvez o arquivo não tenha marcas
-            //essa bosta fica toda hora se perdendo com entidades do Tekla
-            //mapeia via força bruta
-            if (items.Count() == 0)
-            {
 
-                ModelItemCollection searchResults = new ModelItemCollection();
-                s1.SearchConditions.Add(SearchCondition.HasCategoryByName(PropertyCategoryNames.Item));
-                searchResults = s1.FindAll(Autodesk.Navisworks.Api.Application.ActiveDocument, false);
-                s1.PruneBelowMatch = false;
-                s1.SearchConditions.Clear();
-                var oss = searchResults.ToList().FindAll(x => !x.IsHidden).ToList();
-                //ICON 4 = PROCURA TUDO QUE TEM UM GRUPO
-                List<string> objetos = new List<string>();
-                objetos.Add("IFCELEMTASSEMBLY");
-                objetos.Add("IFCBEAM");
-                objetos.Add("IFCCOLUMN");
-                objetos.Add("IFCPLATE");
-                objetos.Add("IFCFOOTING");
-                objetos.Add("IFCMEMBER");
-                objetos.Add("IFCELEMENT");
+            //ModelItemCollection micTmp = new ModelItemCollection();
+            //foreach (var mod in activeDoc.Models)
+            //{
+            //    micTmp.Add(mod.RootItem);
+            //}
 
-                var OBJS = GetObjetos(searchResults, "Item", "Type", objetos).ToList();
-                items.AddRange(OBJS);
-            }
-            w.somaProgresso();
+            //////Daniel Maciel
+            //items.AddRange(sds2);
+            //w.somaProgresso();
 
-            var itens = items.GroupBy(x => x).Select(x => x.First()).ToList();
-            List<ModelItem> pp = new List<ModelItem>();
-            items.Clear();
 
-            var itss = itens.FindAll(x => !x.IsHidden).ToList();
-            itens = itens.GroupBy(x => x.GetHashCode()).Select(x => x.First()).ToList();
-            itens = itens.OrderBy(x => x.GetHashCode()).ToList();
-            foreach (var it in itens)
-            {
+            ////se não acha nada, é porque talvez o arquivo não tenha marcas
+            ////essa bosta fica toda hora se perdendo com entidades do Tekla
+            ////mapeia via força bruta
+            //if (items.Count() == 0)
+            //{
 
-                ModelItem member, etapa;
-                GetMembroPrincipal(it, out member, out etapa);
+            //    ModelItemCollection searchResults = new ModelItemCollection();
+            //    s.SearchConditions.Add(SearchCondition.HasCategoryByName(PropertyCategoryNames.Item));
+            //    searchResults = s.FindAll(Autodesk.Navisworks.Api.Application.ActiveDocument, false);
+            //    s.PruneBelowMatch = false;
+            //    s.SearchConditions.Clear();
+            //    var oss = searchResults.ToList().FindAll(x => !x.IsHidden).ToList();
+            //    //ICON 4 = PROCURA TUDO QUE TEM UM GRUPO
+            //    List<string> objetos = new List<string>();
+            //    objetos.Add("IFCELEMTASSEMBLY");
+            //    objetos.Add("IFCBEAM");
+            //    objetos.Add("IFCCOLUMN");
+            //    objetos.Add("IFCPLATE");
+            //    objetos.Add("IFCFOOTING");
+            //    objetos.Add("IFCMEMBER");
+            //    objetos.Add("IFCELEMENT");
 
-                if (member != null)
-                {
-                    pp.Add(member);
-                }
-            }
-            pp = pp.FindAll(x => !x.IsHidden).ToList();
-            pp = pp.GroupBy(x => x.GetHashCode()).Select(x => x.First()).ToList();
+            //    var OBJS = GetObjetos(searchResults, "Item", "Type", objetos).ToList();
+            //    items.AddRange(OBJS);
+            //}
+            //w.somaProgresso();
 
-            w.SetProgresso(1, pp.Count, $"Mapeando etapas nas peças... {pp.Count}");
+            //var itens = items.GroupBy(x => x).Select(x => x.First()).ToList();
+            //List<ModelItem> pp = new List<ModelItem>();
+            //items.Clear();
+
+            //var itss = itens.FindAll(x => !x.IsHidden).ToList();
+            //itens = itens.GroupBy(x => x.GetHashCode()).Select(x => x.First()).ToList();
+            //itens = itens.OrderBy(x => x.GetHashCode()).ToList();
+            //foreach (var it in itens)
+            //{
+
+            //    ModelItem member, etapa;
+            //    GetMembroPrincipal(it, out member, out etapa);
+
+            //    if (member != null)
+            //    {
+            //        pp.Add(member);
+            //    }
+            //}
+            //pp = pp.FindAll(x => !x.IsHidden).ToList();
+            //pp = pp.GroupBy(x => x.GetHashCode()).Select(x => x.First()).ToList();
+
+            w.SetProgresso(1, itens.Count, $"Mapeando etapas nas peças... {itens.Count}");
+
+            var marcas = itens.GroupBy(x => x.DisplayName).ToList();
   
-            foreach (ModelItem item in pp)
+            foreach (ModelItem item in itens)
             {
                 if (item.Parent != null)
                 {
-                    Mapear(item);
+                    List<PropertyCategory> propriedades = new List<PropertyCategory>();
+                    List<PropertyCategory> pcs_identification = new List<PropertyCategory>();
+
+                    //17/03/2020
+                    pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("SDS"); }));
+                    pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("TEKLA"); }));
+                    pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("PSET"); }));
+                    pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("STEEL GRAPHICS COMMON"); }));
+                    pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("IFC"); }));
+                    pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("ITEM"); }));
+
+                    propriedades.AddRange(pcs_identification);
+                    string nome_etapa = "";
+                    string Member_Number_String = "";
+                    string marca_string = "";
+                    double peso = 0;
+                    string Member_Type_String = "";
+
+
+
+
+                    //vai procurando pelas propriedades e se encontrar, seta o valor.
+                    foreach (PropertyCategory pc in propriedades)
+                    {
+                        try
+                        {
+
+                            DataProperty Sequencia = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Sequence");
+                            DataProperty Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Number");
+                            DataProperty Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Piecemark");
+                            DataProperty Peso = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Net_Weight");
+                            DataProperty Tipo = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Type");
+
+                            if (Marca == null)
+                            {
+                                Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Assembly/Cast unit Mark");
+                            }
+                            if (Marca == null)
+                            {
+                                Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "TAG");
+                            }
+
+                            if (Marca == null)
+                            {
+                                Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Assembly Mark");
+                            }
+                            if (Marca == null)
+                            {
+                                Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "DESCRIPTION");
+                            }
+
+
+                            if (Sequencia == null)
+                            {
+                                Sequencia = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Phase");
+                            }
+                            if (Numero == null)
+                            {
+                                Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "GUID");
+                            }
+
+                            if (Marca == null)
+                            {
+                                Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Reference");
+
+                            }
+
+                            if (Peso == null)
+                            {
+                                Peso = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Assembly/Cast unit weight");
+                            }
+                            if (Tipo == null)
+                            {
+                                Tipo = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Type");
+                            }
+
+                            //17/03/2020 - para marcas simples do tekla
+                            if (Marca == null)
+                            {
+                                Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Type");
+                            }
+                            if (Peso == null)
+                            {
+                                Peso = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Weight");
+                            }
+
+
+
+
+                            if (Numero == null)
+                            {
+                                Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Number");
+                            }
+                            if (Marca == null)
+                            {
+                                Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "BATID");
+                            }
+
+
+
+
+                            if (Sequencia != null && nome_etapa == "") nome_etapa = Sequencia.Value.ToDisplayString();
+                            if (Marca != null && marca_string == "") marca_string = Marca.Value.ToDisplayString();
+                            if (Peso != null && peso == 0) peso = Peso.Value.ToAnyDouble();
+                            if (Tipo != null && Member_Type_String == "") Member_Type_String = Tipo.Value.ToDisplayString();
+                            if (Numero != null && Member_Number_String == "") Member_Number_String = Numero.Value.ToDisplayString();
+
+
+                            //15/04/2020 - para ler os inputs de TecnoMetal
+                            if (marca_string.ToUpper().Contains("MARK") && marca_string.ToUpper().Contains("POS"))
+                            {
+                                var m = marca_string.Split(' ').ToList();
+                                marca_string = m[0].ToUpper().Replace(" ", "").Replace("MARK", "").Replace(":", "");
+                            }
+
+                            if (marca_string.Contains(" "))
+                            {
+                                marca_string = item.DisplayName;
+                            }
+                            else if (marca_string == Member_Type_String)
+                            {
+                                marca_string = item.DisplayName;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+                    }
+
+                    if (marca_string == "") { return; }
+
+                    try
+                    {
+                        ModelItem member, etapa;
+                        GetMembroPrincipal(item, out member, out etapa);
+                        if (member == null) { return; }
+                        if (lastMember != null && member == lastMember) return;
+
+
+                        lastMember = member;
+                        //adiciona a medabil tab na sequence
+                        var nova_etapa = Etapas.Find(x => x.Nome == nome_etapa);
+                        if (nova_etapa == null)
+                        {
+                            nova_etapa = new Etapa("sequence", nome_etapa);
+                            Etapas.Add(nova_etapa);
+                            CriaTabDePropriedades(etapa, Constantes.Tab, Constantes.Tab);
+                            Propriedade_Edita_Cria(etapa, Constantes.Tab, Constantes.Hierarquia, Constantes.Etapa, Constantes.Hierarquia);
+                            Propriedade_Edita_Cria(etapa, Constantes.Tab, Constantes.Nome, nome_etapa, Constantes.Nome);
+                        }
+
+                        //adiciona a medabil tab nos membros
+
+
+                        Peca newMember = new Peca(
+                            "member",
+                            Member_Number_String,
+                            peso,
+                            marca_string,
+                            Member_Type_String
+                            );
+                        CriaTabDePropriedades(member, Constantes.Tab, Constantes.Tab);
+                        Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Hierarquia, newMember.TipoObjeto, Constantes.Hierarquia);
+                        Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Etapa, nova_etapa.Nome, Constantes.Etapa);
+                        Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Piecemark, newMember.Marca, Constantes.Piecemark);
+                        Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Numero, newMember.Numero, Constantes.Numero);
+                        Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Tipo, newMember.Tipo, Constantes.Tipo);
+                        Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Peso, newMember.PesoLiquido.ToString(), Constantes.PesoDesc);
+
+                        //if (newMember.Type == "MISCELANEA") return;
+
+                        nova_etapa.Pecas.Add(newMember);
+                        if (!nova_etapa.TypesCounter.ContainsKey(newMember.Tipo))
+                        {
+                            nova_etapa.TypesCounter.Add(newMember.Tipo, 1);
+                            nova_etapa.TypesNetWeight.Add(newMember.Tipo, newMember.PesoLiquido);
+
+                        }
+                        else
+                        {
+                            nova_etapa.TypesCounter[newMember.Tipo]++;
+                            nova_etapa.TypesNetWeight[newMember.Tipo] += newMember.PesoLiquido;
+
+                        }
+
+                        nova_etapa.PesoLiquido += newMember.PesoLiquido;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+
                     w.somaProgresso();
                 }
 
             }
             w.SetProgresso(1, 5, "Setando propriedades");
             w.somaProgresso();
-            PropertiesSequencesProcess();
+            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
+
+            foreach (var etapa in Etapas)
+            {
+                s = new Search();
+                s.Selection.SelectAll();
+                s.SearchConditions.Add(SearchCondition.HasPropertyByDisplayName(Constantes.Tab, Constantes.Nome).EqualValue(VariantData.FromDisplayString(etapa.Nome)));
+                ModelItem item = s.FindFirst(doc, false);
+                Propriedade_Edita_Cria(item, Constantes.Tab, Constantes.Hierarquia, Constantes.Etapa, Constantes.Hierarquia);
+                Propriedade_Edita_Cria(item, Constantes.Tab, Constantes.Nome, etapa.Nome, Constantes.Nome);
+                Propriedade_Edita_Cria(item, Constantes.Tab, "MembersCount", etapa.Pecas.Count.ToString(), "Elementos (Quantidade)");
+                Propriedade_Edita_Cria(item, Constantes.Tab, "MemebersMass", etapa.PesoLiquido.ToString(), "Elementos (Peso - kg)");
+                foreach (KeyValuePair<string, int> typeCount in etapa.TypesCounter)
+                {
+                    if (typeCount.Key == "MISCELANEA") continue;
+                    Propriedade_Edita_Cria(item, Constantes.Tab, typeCount.Key + "Count", typeCount.Value.ToString(), typeCount.Key + " (Quantidade)");
+                    Propriedade_Edita_Cria(item, Constantes.Tab, typeCount.Key + Constantes.Peso, etapa.TypesNetWeight[typeCount.Key].ToString(), typeCount.Key + " (Peso - kg)");
+                }
+            }
             Etapas = new List<Etapa>();
             w.Close();
 
-            Utilz.Alerta("Finalizado.");
+            Utilz.Alerta("Finalizado.","", System.Windows.MessageBoxImage.Information);
         }
         private static ModelItemCollection GetObjetos(ModelItemCollection searchResults, string categoria, string propriedade, List<string> valores)
         {
@@ -357,30 +579,10 @@ namespace MedabilNavisworks
                 }
 
 
-
-
-
                 if (member != null)
                 {
                     pp.Add(member);
                 }
-
-
-
-                //ModelItem member, etapa;
-                //GetMembroPrincipal(p, out member, out etapa);
-                //if (member == null)
-                //{ continue; }
-
-
-                //if (member.Children.Count() == 0)
-                //{
-                //    continue;
-                //}
-
-
-
-
 
 
             }
@@ -518,207 +720,7 @@ namespace MedabilNavisworks
 
 
         }
-        private void Mapear(ModelItem item)
-        {
 
-            List<PropertyCategory> propriedades = new List<PropertyCategory>();
-
-            List<PropertyCategory> pcs_identification = new List<PropertyCategory>();
-            //17/03/2020
-            pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("SDS"); }));
-            pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("TEKLA"); }));
-            pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("PSET"); }));
-            pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("STEEL GRAPHICS COMMON"); }));
-            pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("IFC"); }));
-            pcs_identification.AddRange(item.PropertyCategories.Where(p => { return p.DisplayName.ToUpper().Contains("ITEM"); }));
-            
-            propriedades.AddRange(pcs_identification);
-            string nome_etapa = "";
-            string Member_Number_String = "";
-            string marca_string = "";
-            double peso = 0;
-            string Member_Type_String = "";
-
-            //vai procurando pelas propriedades e se encontrar, seta o valor.
-            foreach (PropertyCategory pc in propriedades)
-            {
-                try
-                {
-
-                    DataProperty Sequencia = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Sequence");
-                    DataProperty Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Number");
-                    DataProperty Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Piecemark");
-                    DataProperty Peso = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Net_Weight");
-                    DataProperty Tipo = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Type");
-
-                    if (Marca == null)
-                    {
-                        Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Assembly/Cast unit Mark");
-                    }
-                    if (Marca == null)
-                    {
-                        Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "TAG");
-                    }
-
-                    if (Marca == null)
-                    {
-                        Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Assembly Mark");
-                    }
-                    if (Marca == null)
-                    {
-                        Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "DESCRIPTION");
-                    }
-
-
-                    if (Sequencia == null)
-                    {
-                        Sequencia = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Phase");
-                    }
-                    if (Numero == null)
-                    {
-                        Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "GUID");
-                    }
-
-                    if (Marca == null)
-                    {
-                        Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Reference");
-
-                    }
-
-                    if (Peso == null)
-                    {
-                        Peso = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Assembly/Cast unit weight");
-                    }
-                    if (Tipo == null)
-                    {
-                        Tipo = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Type");
-                    }
-
-                    //17/03/2020 - para marcas simples do tekla
-                    if (Marca == null)
-                    {
-                        Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Type");
-                    }
-                    if (Peso == null)
-                    {
-                        Peso = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Weight");
-                    }
-
-
-
-
-                    if (Numero == null)
-                    {
-                        Numero = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "Member_Number");
-                    }
-                    if (Marca == null)
-                    {
-                        Marca = item.PropertyCategories.FindPropertyByDisplayName(pc.DisplayName, "BATID");
-                    }
-
-
-
-
-                    if (Sequencia != null && nome_etapa == "") nome_etapa = Sequencia.Value.ToDisplayString();
-                    if (Marca != null && marca_string == "") marca_string = Marca.Value.ToDisplayString();
-                    if (Peso != null && peso == 0) peso = Peso.Value.ToAnyDouble();
-                    if (Tipo != null && Member_Type_String == "") Member_Type_String = Tipo.Value.ToDisplayString();
-                    if (Numero != null && Member_Number_String == "") Member_Number_String = Numero.Value.ToDisplayString();
-
-
-                    //15/04/2020 - para ler os inputs de TecnoMetal
-                    if (marca_string.ToUpper().Contains("MARK") && marca_string.ToUpper().Contains("POS"))
-                    {
-                        var m = marca_string.Split(' ').ToList();
-                        marca_string = m[0].ToUpper().Replace(" ", "").Replace("MARK", "").Replace(":", "");
-                    }
-
-                    if (marca_string.Contains(" "))
-                    {
-                        marca_string = item.DisplayName;
-                    }
-                    else if (marca_string == Member_Type_String)
-                    {
-                        marca_string = item.DisplayName;
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-            }
-
-            if (marca_string == "") { return; }
-
-            try
-            {
-                ModelItem member, etapa;
-                GetMembroPrincipal(item, out member, out etapa);
-                if (member == null) { return; }
-                if (lastMember != null && member == lastMember) return;
-
-
-                lastMember = member;
-                //adiciona a medabil tab na sequence
-                var nova_etapa = Etapas.Find(x => x.Nome == nome_etapa);
-                if (nova_etapa == null)
-                {
-                    nova_etapa = new Etapa("sequence", nome_etapa);
-                    Etapas.Add(nova_etapa);
-                    CriaTabDePropriedades(etapa, Constantes.Tab, Constantes.Tab);
-                    Propriedade_Edita_Cria(etapa,Constantes.Tab, Constantes.Hierarquia, Constantes.Etapa, Constantes.Hierarquia);
-                    Propriedade_Edita_Cria(etapa,Constantes.Tab, Constantes.Nome, nome_etapa, Constantes.Nome);
-                }
-
-                //adiciona a medabil tab nos membros
-
-
-                Peca newMember = new Peca(
-                    "member",
-                    Member_Number_String,
-                    peso,
-                    marca_string,
-                    Member_Type_String
-                    );
-                CriaTabDePropriedades(member,  Constantes.Tab, Constantes.Tab);
-                Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Hierarquia, newMember.TipoObjeto, Constantes.Hierarquia);
-                Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Etapa, nova_etapa.Nome, Constantes.Etapa);
-                Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Piecemark, newMember.Marca, Constantes.Piecemark);
-                Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Numero, newMember.Numero, Constantes.Numero);
-                Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Tipo, newMember.Tipo, Constantes.Tipo);
-                Propriedade_Edita_Cria(member, Constantes.Tab, Constantes.Peso, newMember.PesoLiquido.ToString(), Constantes.PesoDesc);
-
-                //if (newMember.Type == "MISCELANEA") return;
-
-                nova_etapa.Pecas.Add(newMember);
-                if (!nova_etapa.TypesCounter.ContainsKey(newMember.Tipo))
-                {
-                    nova_etapa.TypesCounter.Add(newMember.Tipo, 1);
-                    nova_etapa.TypesNetWeight.Add(newMember.Tipo, newMember.PesoLiquido);
-
-                }
-                else
-                {
-                    nova_etapa.TypesCounter[newMember.Tipo]++;
-                    nova_etapa.TypesNetWeight[newMember.Tipo] += newMember.PesoLiquido;
-
-                }
-
-                nova_etapa.PesoLiquido += newMember.PesoLiquido;
-            }
-            catch (Exception)
-            {
-
-            }
-
-
-
-
-
-
-
-        }
         private static void GetMembroPrincipal(ModelItem item, out ModelItem member, out ModelItem etapa)
         {
 
@@ -826,39 +828,7 @@ namespace MedabilNavisworks
         {
             return s.PropertyCategories.FindPropertyByDisplayName("Item", "Icon").Value.ToNamedConstant().Value;
         }
-        private void PropertiesSequencesProcess()
-        {
 
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-
-            foreach (var etapa in Etapas)
-            {
-                Search s = new Search();
-
-                s.Selection.SelectAll();
-                SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName(Constantes.Tab, Constantes.Nome).EqualValue(VariantData.FromDisplayString(etapa.Nome));
-
-                s.SearchConditions.Add(oSearchCondition);
-                ModelItem item = s.FindFirst(doc, false);
-                Propriedade_Edita_Cria(item, Constantes.Tab, Constantes.Hierarquia, Constantes.Etapa, Constantes.Hierarquia);
-                Propriedade_Edita_Cria(item, Constantes.Tab, Constantes.Nome, etapa.Nome, Constantes.Nome);
-                Propriedade_Edita_Cria(item, Constantes.Tab, "MembersCount", etapa.Pecas.Count.ToString(), "Elementos (Quantidade)");
-                Propriedade_Edita_Cria(item, Constantes.Tab, "MemebersMass", etapa.PesoLiquido.ToString(), "Elementos (Peso - kg)");
-                foreach (KeyValuePair<string, int> typeCount in etapa.TypesCounter)
-                {
-                    if (typeCount.Key == "MISCELANEA") continue;
-                    Propriedade_Edita_Cria(item, Constantes.Tab, typeCount.Key + "Count", typeCount.Value.ToString(), typeCount.Key + " (Quantidade)");
-                    Propriedade_Edita_Cria(item, Constantes.Tab, typeCount.Key + Constantes.Peso, etapa.TypesNetWeight[typeCount.Key].ToString(), typeCount.Key + " (Peso - kg)");
-
-                }
-
-            }
-
-
-
-
-
-        }
         private void CriaTabDePropriedades(ModelItem item, string user_name, string internal_name) //string tipoObjeto, object objeto)
         {
             if (item == null) return;
@@ -1435,22 +1405,16 @@ namespace MedabilNavisworks
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
             var ss = doc.SelectionSets;
 
-
             var fn = folderName;
-
 
             try
             {
-
-
                 var fi = ss.Value.IndexOfDisplayName(fn);
 
                 if (fi != -1)
                 {
                     ss.Remove(ss.Value[fi]);
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -1458,20 +1422,28 @@ namespace MedabilNavisworks
             }
         }
 
-        private void LimpaStatus()
-        {
-           
 
-        }
 
         private static ModelItemCollection GetPecas(string tab, string propriedade)
+        {
+            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
+            Search s = new Search();
+            s.Selection.SelectAll();
+           
+            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName(tab,propriedade);
+            s.SearchConditions.Add(oSearchCondition);
+
+            ModelItemCollection items = s.FindAll(doc, false);
+            return items;
+        }
+        private static ModelItemCollection GetPecas(string tab, string propriedade, string valor)
         {
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
 
             Search s = new Search();
 
             s.Selection.SelectAll();
-            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName(tab,propriedade);
+            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName(tab, propriedade).EqualValue(VariantData.FromDisplayString(valor));
 
             s.SearchConditions.Add(oSearchCondition);
             ModelItemCollection items = s.FindAll(doc, false);

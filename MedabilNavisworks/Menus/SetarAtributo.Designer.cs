@@ -43,14 +43,15 @@ namespace MedabilNavisworks.Menus
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 13);
+            this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Grupo: ";
+            this.label1.Text = "Tab:";
             // 
             // txt_grupo
             // 
             this.txt_grupo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_grupo.Enabled = false;
             this.txt_grupo.Location = new System.Drawing.Point(79, 12);
             this.txt_grupo.Name = "txt_grupo";
             this.txt_grupo.Size = new System.Drawing.Size(243, 20);
