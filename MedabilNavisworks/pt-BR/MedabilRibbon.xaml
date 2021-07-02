@@ -108,7 +108,15 @@
                                       ShowText="True"
                                       Text="SETs"
                                       Orientation="Vertical"/>
+                <local:NWRibbonButton x:Uid="BExtrairAtributos"
+                                      Id="ExtrairAtributos"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Atributos"
+                                      Orientation="Vertical"/>
             </RibbonPanelSource>
+            
         </RibbonPanel>
 
         <RibbonPanel x:Uid="RibbonPane1_8">

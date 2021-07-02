@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autodesk.Navisworks.Api;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace MedabilNavisworks
         public Dictionary<string, int> TypesCounter { get; set; } = new Dictionary<string, int>();
         public Dictionary<string, double> TypesNetWeight { get; set; } = new Dictionary<string, double>();
 
+        public ModelItem modelItem { get; set; }
         
 
         public Etapa()
@@ -22,11 +24,11 @@ namespace MedabilNavisworks
 
         }
 
-        public Etapa(string tipoObjeto, string name)
+        public Etapa(string tipoObjeto, string name, ModelItem item)
         {
             TipoObjeto = tipoObjeto;
             Nome = name;
-            
+            this.modelItem = item;
         }
     }
 }

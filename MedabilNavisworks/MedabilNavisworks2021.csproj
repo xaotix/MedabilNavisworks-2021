@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constantes.cs" />
+    <Compile Include="Funcoes.cs" />
     <Compile Include="Menus\ExecucaoDateForm.cs">
       <SubType>Form</SubType>
     </Compile>

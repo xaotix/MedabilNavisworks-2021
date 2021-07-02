@@ -14,7 +14,7 @@ namespace MedabilNavisworks
         public static string Hierarquia { get; set; } = "Hierarquia";
         public static string Etapa { get; set; } = "Etapa";
         public static string DataExecucaoDesc { get; set; } = "Data de Execução";
-        public static string DataExecucao { get; set; } = "DataExecucao";
+        public static string DataExecucao { get; set; } = "Data_Execucao";
         public static string Piecemark { get; set; } = "Piecemark";
         public static string Numero { get; set; } = "Numero";
         public static string Nome { get; set; } = "Nome";
@@ -24,5 +24,7 @@ namespace MedabilNavisworks
         public static string Multiplo { get; set; } = "Multiplo";
         public static string Status_Multiplo { get; set; } = "Status_Multiplo";
         public static string PesoDesc { get; set; } = "Peso (kg)";
+
+        public static string IFC_MontagemMarca { get; set; } = "IFCELEMNTASSEMBLY";
     }
 }
