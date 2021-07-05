@@ -19,6 +19,12 @@ namespace MedabilNavisworks
         public static string Numero { get; set; } = "Numero";
         public static string Nome { get; set; } = "Nome";
         public static string Tipo { get; set; } = "Tipo";
+        public static string Descricao { get; set; } = "Descrição";
+        public static string Area { get; set; } = "Área";
+        public static string Volume { get; set; } = "Volume";
+        public static string Comprimento { get; set; } = "Comprimento";
+        public static string Largura { get; set; } = "Largura";
+        public static string Espessura { get; set; } = "Espessura";
         public static string Peso { get; set; } = "Peso";
         public static string Status { get; set; } = "Status";
         public static string Multiplo { get; set; } = "Multiplo";

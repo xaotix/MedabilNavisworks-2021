@@ -16,7 +16,7 @@ namespace MedabilNavisworks
         {
             Funcoes.Propriedade_Edita_Cria(item, tabName, propertyName, "_remover");
         }
-        public static ModelItemCollection GetPecas(string tab, string propriedade)
+        public static List<ModelItem> GetPecas(string tab, string propriedade)
         {
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
             Search s = new Search();
@@ -26,22 +26,10 @@ namespace MedabilNavisworks
             s.SearchConditions.Add(oSearchCondition);
 
             ModelItemCollection items = s.FindAll(doc, false);
-            return items;
+            return items.ToList();
         }
-        public static ModelItemCollection GetPecas(string tab, string propriedade, string valor)
-        {
-            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
 
-            Search s = new Search();
-
-            s.Selection.SelectAll();
-            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName(tab, propriedade).EqualValue(VariantData.FromDisplayString(valor));
-
-            s.SearchConditions.Add(oSearchCondition);
-            ModelItemCollection items = s.FindAll(doc, false);
-            return items;
-        }
-        public static ModelItemCollection GetPecas(string marca)
+        public static ModelItemCollection GetPecasPorMarca(string marca)
         {
             Search s = new Search();
             s.Selection.SelectAll();
@@ -53,21 +41,21 @@ namespace MedabilNavisworks
             return items;
         }
 
-        public static void Apagar_Propriedade(string tab, string propriedade, ModelItemCollection pcs = null)
+        public static void Apagar_Propriedade(string tab, string propriedade, List<Peca> pcs = null)
         {
             if (pcs == null)
             {
-                pcs = GetPecas(tab, propriedade);
+                pcs = GetPecas();
             }
 
 
             Conexoes.Wait w = new Wait(pcs.Count, $"Apagando propriedade {tab} - {propriedade} de {pcs.Count} Peças");
             w.Show();
 
-            foreach (ModelItem item in pcs)
+            foreach (var item in pcs)
             {
                 w.somaProgresso();
-                Apagar_Propriedade(item, tab, propriedade);
+                Apagar_Propriedade(item.ModelItem, tab, propriedade);
             }
             w.Close();
         }
@@ -116,10 +104,10 @@ namespace MedabilNavisworks
 
             return "";
         }
-        public static List<ModelItem> GetPecas()
+        public static List<Peca> GetPecas()
         {
 
-            Conexoes.Wait w = new Wait(5, "Mapeando...");
+            Conexoes.Wait w = new Wait(5, "1/3 Mapeando...");
             w.Show();
             w.somaProgresso();
 
@@ -140,7 +128,7 @@ namespace MedabilNavisworks
             condicoes.Add(SearchCondition.HasCategoryByDisplayName("Tekla Common"));
 
 
-            condicoes.Add(SearchCondition.HasCategoryByDisplayName("Medabil"));
+            //condicoes.Add(SearchCondition.HasCategoryByDisplayName("Medabil"));
 
           
 
@@ -175,7 +163,7 @@ namespace MedabilNavisworks
             List<ModelItem> itens = new List<ModelItem>();
             var itensLista = s.FindAll(activeDoc, false).ToList();
             List<string> tipos = new List<string>();
-            w.SetProgresso(1,itensLista.Count, $"Mapeando peças {itensLista.Count}");
+            w.SetProgresso(1,itensLista.Count, $"2/3 Mapeando peças {itensLista.Count}");
            
             foreach (var item in itensLista)
             {
@@ -203,8 +191,23 @@ namespace MedabilNavisworks
 
 
             itens = itens.GroupBy(x => x.GetHashCode()).Select(x => x.First()).ToList();
+            Funcoes.Destacar(itens);
+
+            w.SetProgresso(1, itens.Count,"3/3 Mapeando marcas...");
+
+            List<Peca> retorno = new List<Peca>();
+            foreach(var pc in itens)
+            {
+                retorno.Add(new Peca(pc));
+                w.somaProgresso();
+            }
+
             w.Close();
-            return itens;
+
+        
+
+
+            return retorno;
         }
 
         public static void Destacar(List<ModelItem> itens)
@@ -223,16 +226,16 @@ namespace MedabilNavisworks
         public static void Limpar()
         {
 
-            var items = GetPecas();
+            var items = Funcoes.GetPecas();
             Conexoes.Wait w = new Wait(items.Count, $"Limpando...{items.Count} itens...");
             w.Show();
 
-            foreach (ModelItem item in items)
+            foreach (var item in items)
             {
-                var props_medabil = Funcoes.GetPropriedades(item, Constantes.Tab);
+                var props_medabil = item.GetPropriedades(new List<string> { Constantes.Tab });
                 foreach (var prop in props_medabil)
                 {
-                    Apagar_Propriedade(item, Constantes.Tab, prop.DisplayName);
+                    Apagar_Propriedade(item.ModelItem, Constantes.Tab, prop.Coluna);
                 }
                 //Apagar_Propriedade(item, Constantes.Tab, Constantes.Hierarquia);
                 //Apagar_Propriedade(item, Constantes.Tab, Constantes.Nome);
@@ -408,8 +411,28 @@ namespace MedabilNavisworks
             }
             retorno = retorno.OrderBy(x => x.DisplayName).ToList();
 
+            return retorno;
+        }
 
-
+        public static List<DB.Celula> GetPropriedadesTab(ModelItem item, string tab = null)
+        {
+            List<DB.Celula> retorno = new List<DB.Celula>();
+            var s = item.PropertyCategories.ToList();
+            foreach (var t in s)
+            {
+                if (tab != null)
+                {
+                    if (t.DisplayName.ToUpper().Replace(" ", "_") == tab.ToUpper().Replace(" ", "_"))
+                    {
+                        retorno.AddRange(t.Properties.ToList().Select(x => new DB.Celula(x.DisplayName, Getvalor(x)) { Tabela = t.DisplayName }));
+                    }
+                }
+                else
+                {
+                    retorno.AddRange(t.Properties.ToList().Select(x => new DB.Celula(x.DisplayName, Getvalor(x)) { Tabela = t.DisplayName }));
+                }
+            }
+            retorno = retorno.OrderBy(x => x.Coluna).ToList();
 
             return retorno;
         }

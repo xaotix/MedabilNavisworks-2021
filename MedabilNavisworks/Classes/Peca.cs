@@ -7,70 +7,107 @@ using System.Threading.Tasks;
 
 namespace MedabilNavisworks
 {
-    class Peca
+    public class Peca
     {
-        public List<DataProperty> GetPropsMarca()
+        public List<DB.Celula> GetPropsMarca()
         {
             /*aqui tem uma baderna. cada tipo de software bota numa propriedade diferente*/
-            List<DataProperty> retorno = new List<DataProperty>();
-            retorno.AddRange(this.GetPropriedades().FindAll(x => x.DisplayName.ToUpper().Replace(" ", "_") == "ASSEMBLY_MARK"));
-            retorno.AddRange(this.GetPropriedades().FindAll(x => x.DisplayName.ToUpper().Contains("PIECEMARK")));
-            retorno.AddRange(this.GetPropriedades().FindAll(x => x.DisplayName.ToUpper().Contains("MARK")));
-            retorno.AddRange(this.GetPropriedades().FindAll(x => x.DisplayName.ToUpper() == "TAG"));
-            retorno.AddRange(this.GetPropriedades().FindAll(x => x.DisplayName.ToUpper().Contains("NAME")));
-            retorno.AddRange(this.GetPropriedades().FindAll(x => x.DisplayName.ToUpper().Contains("REFERENCE")));
-            retorno.AddRange(this.GetPropriedades().FindAll(x => x.DisplayName.ToUpper().Contains("DESCRIPTION")));
-            retorno.AddRange(this.GetPropriedades().FindAll(x => x.DisplayName.ToUpper().Contains("BATID")));
+            List<DB.Celula> retorno = new List<DB.Celula>();
+            retorno.AddRange(this.GetPropriedades().FindAll(x => x.Coluna.ToUpper().Replace(" ", "_") == "ASSEMBLY_MARK"));
+            retorno.AddRange(this.GetPropriedades().FindAll(x => x.Coluna.ToUpper().Contains("PIECEMARK")));
+            retorno.AddRange(this.GetPropriedades().FindAll(x => x.Coluna.ToUpper().Contains("MARK")));
+            retorno.AddRange(this.GetPropriedades().FindAll(x => x.Coluna.ToUpper() == "TAG"));
+            retorno.AddRange(this.GetPropriedades().FindAll(x => x.Coluna.ToUpper().Contains("NAME")));
+            retorno.AddRange(this.GetPropriedades().FindAll(x => x.Coluna.ToUpper().Contains("REFERENCE")));
+            retorno.AddRange(this.GetPropriedades().FindAll(x => x.Coluna.ToUpper().Contains("DESCRIPTION")));
+            retorno.AddRange(this.GetPropriedades().FindAll(x => x.Coluna.ToUpper().Contains("BATID")));
             return retorno;
         }
-        public List<DataProperty> GetPropsEtapa()
+        public List<DB.Celula> GetPropsEtapa()
         {
             return this.GetPropriedades().FindAll(x =>
-                            x.DisplayName.ToUpper() == "SEQUENCE" |
-                            x.DisplayName.ToUpper() == "PHASE"
+                            x.Coluna.ToUpper() == "SEQUENCE" |
+                            x.Coluna.ToUpper() == "PHASE"
                            );
         }
-        public List<DataProperty> GetPropsNumero()
+        public List<DB.Celula> GetPropsNumero()
         {
             return this.GetPropriedades().FindAll(x =>
-                            x.DisplayName.ToUpper() == "MEMBER_NUMBER" |
-                            x.DisplayName.ToUpper() == "GUID"
+                            x.Coluna.ToUpper() == "MEMBER_NUMBER" |
+                            x.Coluna.ToUpper() == "GUID"
                             );
         }
 
-        public List<DataProperty> GetPropsPeso()
+        public List<DB.Celula> GetPropsPeso()
         {
             return this.GetPropriedades().FindAll(x =>
-                       x.DisplayName.ToUpper().Contains("NET_WEIGHT") |
-                       x.DisplayName.ToUpper() == "WEIGHT" |
-                       x.DisplayName.ToUpper().Replace(" ", "_").Contains("UNIT_WEIGHT")
+                       x.Coluna.ToUpper().Contains("PESO_TOTAL") |
+                       x.Coluna.ToUpper().Contains("PESO") |
+                       x.Coluna.ToUpper().Contains("NET_WEIGHT") |
+                       x.Coluna.ToUpper() == "WEIGHT" |
+                       x.Coluna.ToUpper().Replace(" ", "_").Contains("UNIT_WEIGHT")
                        );
         }
 
-        public List<DataProperty> GetPropsTipo()
+        public List<DB.Celula> GetPropsComp()
         {
             return this.GetPropriedades().FindAll(x =>
-                          x.DisplayName.ToUpper().Contains("TYPE")|
-                          x.DisplayName.ToUpper().Contains("MEMBER_TYPE")
-                          );
+                       x.Coluna.ToUpper().Contains("COMPRIMENTO") |
+                       x.Coluna.ToUpper().Replace(" ", "_").Contains("LENGHT")
+                       );
+        }
+        public List<DB.Celula> GetPropsLarg()
+        {
+            return this.GetPropriedades().FindAll(x =>
+                       x.Coluna.ToUpper().Contains("LARGURA") |
+                       x.Coluna.ToUpper().Replace(" ", "_").Contains("WIDTH")
+                       );
+        }
+        public List<DB.Celula> GetPropsEspessura()
+        {
+            return this.GetPropriedades().FindAll(x =>
+                       x.Coluna.ToUpper().Contains("ESPESSURA") |
+                       x.Coluna.ToUpper().Replace(" ", "_").Contains("THICK")
+                       );
+        }
+        public List<DB.Celula> GetPropsTipo()
+        {
+            return this.GetPropriedades().FindAll(x =>
+                          (x.Coluna.ToUpper().Contains("TYPE") && x.Tabela.ToUpper() == "ITEM"));
         }
 
-        public List<DataProperty> GetPropsDescricao()
+        public List<DB.Celula> GetPropsDescricao()
         {
             return this.GetPropriedades().FindAll(x =>
-                            x.DisplayName.ToUpper().Contains("DESCRIÇÃO") |
-                            x.DisplayName.ToUpper().Contains("DESCRITPION")
+                            x.Coluna.ToUpper().Contains("DESCRIÇÃO") |
+                            x.Coluna.ToUpper().Contains("NAME") |
+                            x.Coluna.ToUpper().Contains("DESCRITPION")
                                );
         }
 
-        private List<DataProperty> _propriedades { get;set; }
-        public List<DataProperty> GetPropriedades()
+
+        public List<string> GetTabs()
+        {
+            return this.GetPropriedades().Select(x => x.Tabela).Distinct().ToList().OrderBy(x => x).ToList();
+        }
+
+
+        private List<DB.Celula> _propriedades { get;set; }
+        public List<DB.Celula> GetPropriedades(List<string> tab = null)
         {
             if(_propriedades ==null)
             {
-                _propriedades = Funcoes.GetPropriedades(this.ModelItem);
+                _propriedades = Funcoes.GetPropriedadesTab(this.ModelItem);
+            }
+            if(tab!=null)
+            {
+                if(tab.Count>0)
+                {
+                return _propriedades.FindAll(x => tab.Find(y=>y.ToUpper() == x.Tabela.ToUpper()) != null);
+                }
             }
             return _propriedades;
+
         }
         public override string ToString()
         {
@@ -86,28 +123,74 @@ namespace MedabilNavisworks
             var nums = this.GetPropsNumero();
             if(nums.Count>0)
             {
-                return Funcoes.Getvalor(nums[0]);
+                return nums[0].Valor;
+            }
+            return "";
+        }
+        public string GetDescricao()
+        {
+            var nums = this.GetPropsDescricao();
+            if (nums.Count > 0)
+            {
+                return nums[0].Valor;
             }
             return "";
         }
 
+        public string GetAtributo(string propriedade)
+        {
+            var retorno = this.GetPropriedades().Find(x => x.Coluna.ToUpper().Replace(" ", "_") == propriedade.ToUpper().Replace(" ", "_"));
+            if(retorno!=null)
+            {
+                return retorno.Valor;
+            }
+            return "";
+        }
 
         public string GetEtapa()
         {
             var nums = this.GetPropsEtapa();
             if (nums.Count > 0)
             {
-                return Funcoes.Getvalor(nums[0]);
+                return nums[0].Valor;
             }
             return "";
         }
 
         public double GetPesoLiquido()
         {
-            var nums = this.GetPropsPeso();
+            var nums = this.GetPropsPeso().FindAll(x=>x.Get().Double()>0);
             if (nums.Count > 0)
             {
-                return Conexoes.Utilz.Double(Funcoes.Getvalor(nums[0]));
+                return nums[0].Get().Double();
+            }
+            return 0;
+        }
+        public double GetComprimento()
+        {
+            var nums = this.GetPropsComp().FindAll(x => x.Get().Double() > 0);
+            if (nums.Count > 0)
+            {
+                return nums[0].Get().Double();
+            }
+            return 0;
+        }
+        public double GetLargura()
+        {
+            var nums = this.GetPropsLarg().FindAll(x => x.Get().Double() > 0);
+            if (nums.Count > 0)
+            {
+                return nums[0].Get().Double();
+            }
+            return 0;
+        }
+
+        public double GetEspessura()
+        {
+            var nums = this.GetPropsEspessura().FindAll(x => x.Get().Double() > 0);
+            if (nums.Count > 0)
+            {
+                return nums[0].Get().Double();
             }
             return 0;
         }
@@ -119,13 +202,13 @@ namespace MedabilNavisworks
            
             if(this.ModelItem!=null)
             {
-                var nums = this.GetPropsMarca().FindAll(x=>Funcoes.Getvalor(x).ToUpper().Replace(" ","").Replace(".","").Replace("-","")!="");
+                var nums = this.GetPropsMarca().FindAll(x=>x.Valor.Replace(" ","").Replace(".","").Replace("-","")!="");
 
                 string nome_fim = "";
 
                 if (nums.Count > 0)
                 {
-                    nome_fim = Funcoes.Getvalor(nums[0]);
+                    nome_fim = nums[0].Valor;
                 }
 
                if(nome_fim.Replace(" ", "").Replace(".", "").Replace("-", "") == "")
@@ -163,7 +246,7 @@ namespace MedabilNavisworks
             var nums = this.GetPropsTipo();
             if (nums.Count > 0)
             {
-                return Funcoes.Getvalor(nums[0]);
+                return nums[0].Valor;
             }
             return "";
         }

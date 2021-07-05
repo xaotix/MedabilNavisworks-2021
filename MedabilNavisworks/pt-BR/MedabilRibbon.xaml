@@ -43,17 +43,32 @@
                                       ShowText="True"
                                       Text="Painel de Obras"
                                       Orientation="Vertical"/>
-        </RibbonPanelSource>
+                <local:NWRibbonButton x:Uid="BImportaPlanilhaCustom" 
+                                      Id="ImportaPlanilhaCustom"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Planilha com atributos"
+                                      Orientation="Vertical"/>
+            </RibbonPanelSource>
         </RibbonPanel>
         <RibbonPanel x:Uid="RibbonPane1_3">
-            <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_3" KeyTip="C1" Title="Execução">
-                <local:NWRibbonButton x:Uid="BDefineData" 
-                              Id="DefineData"                        
-                              Size="Large"
-                              KeyTip="B1"
-                              ShowText="True"
-                              Text="Definir Data"
-                              Orientation="Vertical"/>
+            <RibbonPanelSource x:Uid="RibbonPanelSource_RibbonPanel_3" KeyTip="C1" Title="Seleção">
+                <local:NWRibbonButton x:Uid="BApagaAtributo" 
+                                      Id="ApagaAtributo"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Apagar"
+                                      Orientation="Vertical"/>
+                
+                <local:NWRibbonButton x:Uid="BSetAtributos" 
+                                      Id="SetAtributos"
+                                      Size="Large"
+                                      KeyTip="B1"
+                                      ShowText="True"
+                                      Text="Editar/Criar"
+                                      Orientation="Vertical"/>
 
 
                 <local:NWRibbonButton x:Uid="BRemoveData" 
@@ -71,13 +86,7 @@
                                       ShowText="True"
                                       Text="Sets e Views"
                                       Orientation="Vertical"/>
-                <local:NWRibbonButton x:Uid="BSetAtributos" 
-                                      Id="SetAtributos"
-                                      Size="Large"
-                                      KeyTip="B1"
-                                      ShowText="True"
-                                      Text="Editar/Criar"
-                                      Orientation="Vertical"/>
+
             </RibbonPanelSource>
         </RibbonPanel>
         <RibbonPanel x:Uid="RibbonPane1_4">

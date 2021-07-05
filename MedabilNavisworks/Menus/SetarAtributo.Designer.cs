@@ -36,6 +36,7 @@ namespace MedabilNavisworks.Menus
             this.label3 = new System.Windows.Forms.Label();
             this.txt_valor = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -54,7 +55,7 @@ namespace MedabilNavisworks.Menus
             this.txt_grupo.Enabled = false;
             this.txt_grupo.Location = new System.Drawing.Point(79, 12);
             this.txt_grupo.Name = "txt_grupo";
-            this.txt_grupo.Size = new System.Drawing.Size(243, 20);
+            this.txt_grupo.Size = new System.Drawing.Size(282, 20);
             this.txt_grupo.TabIndex = 1;
             this.txt_grupo.Text = "Medabil";
             // 
@@ -72,8 +73,9 @@ namespace MedabilNavisworks.Menus
             this.txt_propriedade.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_propriedade.Location = new System.Drawing.Point(79, 38);
+            this.txt_propriedade.MaxLength = 40;
             this.txt_propriedade.Name = "txt_propriedade";
-            this.txt_propriedade.Size = new System.Drawing.Size(243, 20);
+            this.txt_propriedade.Size = new System.Drawing.Size(247, 20);
             this.txt_propriedade.TabIndex = 2;
             // 
             // label3
@@ -90,14 +92,15 @@ namespace MedabilNavisworks.Menus
             this.txt_valor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_valor.Location = new System.Drawing.Point(79, 64);
+            this.txt_valor.MaxLength = 300;
             this.txt_valor.Name = "txt_valor";
-            this.txt_valor.Size = new System.Drawing.Size(243, 20);
+            this.txt_valor.Size = new System.Drawing.Size(282, 20);
             this.txt_valor.TabIndex = 3;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(247, 126);
+            this.button1.Location = new System.Drawing.Point(286, 142);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
@@ -105,11 +108,23 @@ namespace MedabilNavisworks.Menus
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(332, 36);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(29, 23);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "...";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // SetarAtributo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 161);
+            this.ClientSize = new System.Drawing.Size(373, 177);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txt_valor);
             this.Controls.Add(this.label3);
@@ -138,5 +153,6 @@ namespace MedabilNavisworks.Menus
         public System.Windows.Forms.TextBox txt_grupo;
         public System.Windows.Forms.TextBox txt_propriedade;
         public System.Windows.Forms.TextBox txt_valor;
+        private System.Windows.Forms.Button button2;
     }
 }

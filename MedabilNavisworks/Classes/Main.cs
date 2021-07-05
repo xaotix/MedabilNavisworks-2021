@@ -21,9 +21,9 @@ namespace MedabilNavisworks
     [Command("MedabilButtonLimpar", LargeIcon = @"Resources\BTLIMPAR_32.ico", DisplayName = "Limpar", ToolTip = "Limpa as informação do último processamento de dados")]
     [Command("Mapeia", LargeIcon = @"Resources\BT1_32.ico", DisplayName = "Processar", ToolTip = "Processa as informações dos arquivos anexados e preenche os dados da aba Medabil de propriedades")]
     [Command("ImportaPlanilha", LargeIcon = @"Resources\BT2_32.ico", DisplayName = "Importar Status", ToolTip = "Carregar informações de Status do Painel de Obras")]
-    [Command("DefineData", LargeIcon = @"Resources\calendar_32_32.ico", DisplayName = "Definir Data Execução", ToolTip = "Define a data de execução dos elementos selecionados")]
-    [Command("RemoveData", LargeIcon = @"Resources\calendarRemove_32_32.ico", DisplayName = "Remove Data Execução", ToolTip = "Remove a data de execução dos elementos selecionados")]
+    [Command("ImportaPlanilhaCustom", LargeIcon = @"Resources\BT2_32.ico", DisplayName = "Importar planilha custom", ToolTip = "Carregar informações de Status de uma planilha externa")]
     [Command("SetsViews", LargeIcon = @"Resources\setsVps_32.ico", DisplayName = "Sets e Viewpoints", ToolTip = "Gera os Sets e Viewpoints de forma organizada para os elementos executados")]
+    [Command("ApagaAtributo", LargeIcon = @"Resources\BTLIMPAR_32.ico", DisplayName = "Apaga atributo selecionado", ToolTip = "Apaga atributo selecionado")]
     [Command("MedabilButton6", LargeIcon = @"Resources\CalcSelection_32.ico", DisplayName = "Medabil/Tipo", ToolTip = "Apresenta o somatório das propriedades dos elementos selecionados separados por Medabil/Tipo")]
     [Command("MedabilButton7", LargeIcon = @"Resources\CalcSelection_32.ico", DisplayName = "IFC/OBJECTTYPE", ToolTip = "Apresenta o somatório das propriedades dos elementos selecionados separados por IFC/OBJECTTYPE")]
     [Command("PropertiesSetsSum", LargeIcon = @"Resources\excelExport_32.ico", DisplayName = "Exportar Somatórios", ToolTip = "Exporta os somatórios das propriedades dos elementos dos sets de execução")]
@@ -54,6 +54,9 @@ namespace MedabilNavisworks
                 case "ImportaPlanilha":
                     ImportaPlanilha();
                     break;
+                case "ImportaPlanilhaCustom":
+                    ImportaPlanilhaCustom();
+                    break;
                 case "DefineData":
                     DefineData();
                     break;
@@ -62,6 +65,9 @@ namespace MedabilNavisworks
                     break;
                 case "ExtrairAtributos":
                     ExtrairAtributos();
+                    break;
+                case "ApagaAtributo":
+                    ApagaAtributo();
                     break;
                 case "SetsViews":
                     SetsViews();
@@ -202,16 +208,24 @@ namespace MedabilNavisworks
             if (destino != null && destino != "")
             {
               
-                var pcs = Funcoes.GetPecas();
-                Conexoes.Wait w = new Wait(pcs.Count +2, $"Lendo atributos das Pcs...{pcs.Count}");
+                var lista = Funcoes.GetPecas();
+              
+                Conexoes.Wait w = new Wait(lista.Count +2, $"Lendo atributos das Pcs...{lista.Count}");
                 w.Show();
-                w.somaProgresso();
-                w.somaProgresso();
-                var lista = pcs.Select(x => new Peca(x)).ToList();
+
 
                 if (lista.Count > 0)
                 {
-          
+                    w.Visibility = System.Windows.Visibility.Collapsed;
+                    var colunas = Conexoes.Utilz.SelecionarObjetos(lista.SelectMany(x=>x.GetTabs()).Distinct().ToList());
+                    w.Visibility = System.Windows.Visibility.Visible;
+                    if (colunas.Count == 0) {
+                        w.Close();
+                        return; }
+
+
+
+
                     DB.Tabela tb = new DB.Tabela();
                     foreach (var p in lista)
                     {
@@ -219,9 +233,9 @@ namespace MedabilNavisworks
                         DB.Linha n = new DB.Linha();
                         n.Tabela = p.Marca;
                         n.Add("Marca", p.Marca);
-                        foreach (var att in p.GetPropriedades())
+                        foreach (var att in p.GetPropriedades(colunas))
                         {
-                            n.Add(att.DisplayName, Funcoes.Getvalor(att));
+                            n.Celulas.Add(att);
                         }
                         n.Celulas = n.Celulas.OrderBy(x => x.Coluna).ToList();
                         n.Celulas.Insert(0, new DB.Celula("Marca", p.Marca));
@@ -244,46 +258,22 @@ namespace MedabilNavisworks
         private void Mapeia()
         {
             int max = 4;
-            Wait w = new Wait(10, $"1/{max} Procurando peças...");
-            w.Show();
-            w.somaProgresso();
+         
 
 
             Document activeDoc = Autodesk.Navisworks.Api.Application.ActiveDocument;
-            var itens = Funcoes.GetPecas();
+            var pcs = Funcoes.GetPecas();
+
+            Wait w = new Wait(10, $"1/{max} Procurando peças...");
+            w.Show();
             w.somaProgresso();
             
 
-            var marcas = itens.GroupBy(x => x.DisplayName.ToUpper().Replace(" ", "")).ToList();
-            w.SetProgresso(1,itens.Count, $"2/{max} Mapeando Marcas...{itens.Count}");
-            List <Peca> pcs = new List<Peca>();
-            foreach (var marca in marcas)
-            {
-                string marca_string = marca.Key;
-                foreach (ModelItem item in marca.ToList())
-                {
-                    if (item.Parent != null)
-                    {
-                        //vai procurando pelas propriedades e se encontrar, seta o valor.
-                        try
-                        {
-                            pcs.Add(new Peca(item));
-                        }
-                        catch (Exception ex)
-                        {
 
-                        }
-                    }
-                    w.somaProgresso();
-                }
-            }
-
-            pcs = pcs.OrderBy(x => x.Marca).ToList();
 
             w.SetProgresso(1, pcs.Count+2, $"3/{max} Setando atributos...{pcs.Count} itens");
             w.somaProgresso();
             w.somaProgresso();
-            Funcoes.Destacar(pcs.Select(x=>x.ModelItem).ToList());
             foreach(var peca in pcs)
             {
                 try
@@ -308,7 +298,18 @@ namespace MedabilNavisworks
                     Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Piecemark, peca.Marca);
                     Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Numero, peca.GetNumero());
                     Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Tipo, peca.Tipo);
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Descricao, peca.GetDescricao());
                     Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Peso, peca.GetPesoLiquido().ToString());
+
+                    /*novos*/
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Area, peca.GetAtributo("Area"));
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Volume, peca.GetAtributo("Volume"));
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Comprimento,peca.GetComprimento().ToString() );
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Largura,peca.GetLargura().ToString() );
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, Constantes.Espessura,peca.GetEspessura().ToString() );
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, "Altura Bruta", peca.GetAtributo("Altura Bruta"));
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, "Largura Bruta", peca.GetAtributo("Largura Bruta"));
+                    Funcoes.Propriedade_Edita_Cria(peca.ModelItem, Constantes.Tab, "ID", peca.GetAtributo("Global ID"));
 
                     var pesopc = peca.GetPesoLiquido();
 
@@ -523,7 +524,7 @@ namespace MedabilNavisworks
 
 
 
-            var atuais = Funcoes.GetPecas(Constantes.Tab, Constantes.Status);
+            var atuais = Funcoes.GetPecas();
             if (atuais.Count > 0)
             {
                 if (Conexoes.Utilz.Pergunta($"Deseja limpar o romaneio atual das {atuais.Count} peças existentes?"))
@@ -547,7 +548,7 @@ namespace MedabilNavisworks
             {
 
                 string marca = st.Key;
-                ModelItemCollection items = Funcoes.GetPecas(marca);
+                ModelItemCollection items = Funcoes.GetPecasPorMarca(marca);
 
                 foreach (ModelItem item in items)
                 {
@@ -570,7 +571,102 @@ namespace MedabilNavisworks
         }
 
 
+        private void ImportaPlanilhaCustom()
+        {
 
+
+            string arquivo = Conexoes.Utilz.Abrir_String("xlsx", "Selecione o arquivo de report");
+            if (!File.Exists(arquivo))
+            {
+                return;
+            }
+
+
+
+            Dictionary<string, string> status = new Dictionary<string, string>();
+            ModelItemCollection status_multiplo = new ModelItemCollection();
+            List<string> lista_status = new List<string>();
+
+            try
+            {
+
+             var tbs =   Conexoes.Utilz.GetTabelas(arquivo);
+                if(tbs.Count==0)
+                {
+                    return;
+                }
+
+               DB.Tabela sel = tbs[0];
+
+                if(tbs.Count>1)
+                {
+                    sel = Conexoes.Utilz.SelecionarObjeto(tbs, null, "Selecione a aba do excel");
+                }
+
+
+                if (sel == null) { return; }
+
+                var coluna_marca = Conexoes.Utilz.SelecionarObjeto(sel.GetColunas(), null, "Selecione a coluna que corresponde ao nome da marca");
+                List<Report> retorno = new List<Report>();
+
+                if (coluna_marca!=null)
+                {
+                    var colunas_importar = Conexoes.Utilz.SelecionarObjetos(sel.GetColunas().FindAll(x => x != coluna_marca), true, "Selecione as colunas que deseja importar os atributos");
+
+                    if(colunas_importar.Count>0)
+                    {
+                        var linhas = sel.Linhas.GroupBy(x => x.Get(coluna_marca).valor).ToList();
+                       if(linhas.Count>0)
+                        {
+                            var pecas_modelo = Funcoes.GetPecas();
+                            if(pecas_modelo.Count==0)
+                            {
+                                Conexoes.Utilz.Alerta("Nenhuma peça encontrada no modelo.");
+                                return;
+                            }
+                            Conexoes.Wait w = new Wait(pecas_modelo.Count, "Setando valores...");
+                            w.Show();
+
+                            foreach(var pc in pecas_modelo)
+                            {
+                                var igual = linhas.Find(x => x.Key.ToUpper().Replace(" ", "_") == pc.Marca.ToUpper().Replace(" ", "_"));
+
+                                if(igual!=null)
+                                {
+                                   foreach(var col in colunas_importar)
+                                    {
+                                        var valores = string.Join(",",igual.Select(x => x.Get(col).valor).Distinct().ToList());
+
+                                        if(valores!="")
+                                        {
+                                            Funcoes.Propriedade_Edita_Cria(pc.ModelItem, Constantes.Tab, col, valores);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    retorno.Add(new Report("Nenhum atributo encontrado para ser setado.", pc.Marca ));
+                                }
+                                w.somaProgresso();
+                            }
+                            w.Close();
+                            Conexoes.Utilz.Alerta("Finalizado", "", System.Windows.MessageBoxImage.Information);
+
+                            Conexoes.Utilz.ShowReports(retorno);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Conexoes.Utilz.Alerta(ex.Message + "\n" + ex.StackTrace);
+                return;
+            }
+
+            return;
+
+        }
 
 
 
@@ -969,7 +1065,8 @@ namespace MedabilNavisworks
             }
         }
 
-        private void Propriedade_Custom_Edita()
+
+        private void ApagaAtributo()
         {
             Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
 
@@ -997,7 +1094,73 @@ namespace MedabilNavisworks
 
 
 
-            var mm = new Menus.SetarAtributo();
+
+
+            var pcs = items.Select(x => new Peca(x)).ToList();
+
+            var atributos = pcs.SelectMany(x => x.GetPropriedades(new List<string> { Constantes.Tab })).Select(x=>x.Coluna).Distinct().ToList().FindAll(x=>x!=Constantes.Hierarquia);
+
+            if(atributos.Count==0)
+            {
+                Conexoes.Utilz.Alerta($"Nenhum atributo do tipo [{Constantes.Tab}] encontrado.");
+                return;
+            }
+
+            var sel = Conexoes.Utilz.SelecionarObjetos(atributos, null, "Selecione");
+
+            if(sel.Count>0)
+            {
+                if(Conexoes.Utilz.Pergunta("Tem certeza q deseja apagar os atributos selecionados das peças selecionadas?"))
+                {
+                    Conexoes.Wait w = new Wait(pcs.Count, "Apagando...");
+                    w.Show();
+
+                    foreach(var pc in pcs)
+                    {
+                        foreach(var c in  sel)
+                        {
+                            Funcoes.Apagar_Propriedade(pc.ModelItem, Constantes.Tab, c);
+                            
+                        }
+                        w.somaProgresso();
+                    }
+                    w.Close();
+                }
+            }
+        }
+
+        private void Propriedade_Custom_Edita()
+        {
+            Document doc = Autodesk.Navisworks.Api.Application.ActiveDocument;
+
+            if (doc.CurrentSelection.SelectedItems.Count == 0)
+            {
+                Utilz.Alerta("Nenhum elemento selecionado");
+                return;
+            }
+
+
+
+            Search s = new Search();
+
+            s.Selection.CopyFrom(doc.CurrentSelection);
+            SearchCondition oSearchCondition = SearchCondition.HasPropertyByDisplayName(Constantes.Tab, Constantes.Hierarquia).EqualValue(VariantData.FromDisplayString("member"));
+
+            s.SearchConditions.Add(oSearchCondition);
+            ModelItemCollection items = s.FindAll(doc, false);
+
+            if (items.Count == 0)
+            {
+                Utilz.Alerta("Nenhuma peça do tipo Medabil (member) encontrada na seleção.");
+                return;
+            }
+
+            var props = items.ToList().Select(x => new Peca(x));
+            var cols = props.SelectMany(x => x.GetPropriedades(new List<string> { Constantes.Tab }).Select(y=> y.Coluna).ToList().FindAll(y=>y!= Constantes.Hierarquia)).Distinct().ToList();
+
+       
+
+            var mm = new Menus.SetarAtributo(cols);
             mm.ShowDialog();
 
 
